@@ -1,2 +1,73 @@
-<h1>RTX Jewelry Home Page</h1>
-<p>Welcome to RTX Jewelry.</p>
+<section class="hero-section" aria-label="RTX Jewelry introduction">
+	<div class="hero-content">
+		<p class="hero-tag">Premium Jewelry Studio</p>
+		<h1>RTX Jewelry</h1>
+		<p class="hero-text">
+			Discover handcrafted jewelry made to celebrate every moment. Elegant pieces, trusted quality,
+			and custom designs tailored to your style.
+		</p>
+		<div class="hero-actions">
+			<a routerLink="/products" class="btn btn-primary">Explore Collection</a>
+			<a routerLink="/design-request" class="btn btn-secondary">Request Custom Design</a>
+		</div>
+	</div>
+</section>
+
+<section class="section-block" aria-labelledby="featured-title">
+	<div class="section-header">
+		<h2 id="featured-title">Featured Jewelry</h2>
+		<a routerLink="/products" class="section-link">View All Products</a>
+	</div>
+
+	<div class="card-grid">
+		@for (item of featuredJewelry(); track item.name) {
+			<article class="card">
+				<p class="card-category">{{ item.category }}</p>
+				<h3>{{ item.name }}</h3>
+				<p class="card-description">{{ item.description }}</p>
+				<p class="card-price">{{ item.price }}</p>
+			</article>
+		}
+	</div>
+</section>
+
+<section class="section-block about-section" aria-labelledby="about-title">
+	<h2 id="about-title">Why RTX Jewelry</h2>
+	<p>
+		At RTX Jewelry, we blend modern design with traditional craftsmanship to create pieces that feel
+		personal and timeless. Every item is carefully finished to match our quality standard and your
+		expectations.
+	</p>
+</section>
+
+<section class="section-block split-section" aria-label="Offer and feedback previews">
+	<div class="split-card">
+		<div class="section-header compact">
+			<h2>Current Offers</h2>
+			<a routerLink="/offers" class="section-link">See All Offers</a>
+		</div>
+		<div class="mini-list">
+			@for (offer of offerHighlights(); track offer.title) {
+				<article class="mini-item">
+					<h3>{{ offer.title }}</h3>
+					<p>{{ offer.summary }}</p>
+				</article>
+			}
+		</div>
+	</div>
+
+	<div class="split-card">
+		<div class="section-header compact">
+			<h2>Customer Feedback</h2>
+			<a routerLink="/feedback" class="section-link">Read More</a>
+		</div>
+		<div class="mini-list">
+			@for (item of feedbackPreview(); track item.name) {
+				<article class="mini-item">
+					<h3>{{ item.name }}</h3>
+					<p>{{ item.message }}</p>
+				</article>
+			}
+		</div>
+	</div>
+</section>
