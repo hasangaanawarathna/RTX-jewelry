@@ -148,6 +148,22 @@ h2 {
 	color: #5f471f;
 }
 
+.card-image-box {
+	margin-top: 14px;
+	border: 1px solid rgba(198, 159, 84, 0.35);
+	border-radius: 12px;
+	background: linear-gradient(180deg, #fffdf8, #f9f2e6);
+	padding: 10px;
+}
+
+.card-image {
+	display: block;
+	width: 100%;
+	height: 170px;
+	object-fit: cover;
+	border-radius: 8px;
+}
+
 .about-section {
 	background: linear-gradient(180deg, rgba(198, 159, 84, 0.09), rgba(198, 159, 84, 0.03));
 	border-top: 1px solid rgba(198, 159, 84, 0.2);
