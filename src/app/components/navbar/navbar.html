@@ -12,7 +12,16 @@
       <li><a routerLink="/offers" routerLinkActive="active">Offers</a></li>
       <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
       <li><a routerLink="/feedback" routerLinkActive="active">Feedback</a></li>
-      <li><a routerLink="/admin/login" routerLinkActive="active">Admin Login</a></li>
+      <li>
+        <a
+          routerLink="/admin/login"
+          routerLinkActive="active"
+          class="admin-login-link"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Admin Login
+        </a>
+      </li>
     </ul>
   </nav>
 </header>
