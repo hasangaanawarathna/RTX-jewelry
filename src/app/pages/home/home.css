@@ -164,6 +164,25 @@ h2 {
 	border-radius: 8px;
 }
 
+.card-image-placeholder {
+	height: 170px;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 12px;
+	color: #8a6a30;
+	font-weight: 600;
+	background: repeating-linear-gradient(
+		-45deg,
+		#fffaf1,
+		#fffaf1 12px,
+		#f6ecdc 12px,
+		#f6ecdc 24px
+	);
+}
+
 .about-section {
 	background: linear-gradient(180deg, rgba(198, 159, 84, 0.09), rgba(198, 159, 84, 0.03));
 	border-top: 1px solid rgba(198, 159, 84, 0.2);

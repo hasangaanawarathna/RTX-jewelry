@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Product, ProductItem } from '../../services/product';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -10,26 +12,28 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Home {
-  readonly featuredJewelry = signal([
+  private readonly productService = inject(Product);
+
+  readonly featuredJewelry = signal<ProductItem[]>([
     {
       name: 'Royal Gold Necklace',
       category: 'Necklace',
       description: 'A bold necklace crafted for special celebrations and modern elegance.',
-      image: 'assets/jewelry/royal-gold-necklace.svg',
+      imageUrl: null,
       price: 'LKR 185,000'
     },
     {
       name: 'Diamond Bloom Ring',
       category: 'Ring',
       description: 'Floral-inspired ring design with a bright premium finish.',
-      image: 'assets/jewelry/diamond-bloom-ring.svg',
+      imageUrl: null,
       price: 'LKR 98,000'
     },
     {
       name: 'Pearl Grace Earrings',
       category: 'Earrings',
       description: 'Lightweight pearl earrings with timeless detail and daily comfort.',
-      image: 'assets/jewelry/pearl-grace-earrings.svg',
+      imageUrl: null,
       price: 'LKR 64,500'
     }
   ]);
@@ -55,4 +59,18 @@ export class Home {
       message: 'The design consultation was smooth and personalized.'
     }
   ]);
+
+  constructor() {
+    this.loadFeaturedJewelry();
+  }
+
+  private loadFeaturedJewelry(): void {
+    this.productService.getFeaturedProducts()
+      .pipe(catchError(() => of([])))
+      .subscribe((items) => {
+        if (items.length > 0) {
+          this.featuredJewelry.set(items);
+        }
+      });
+  }
 }

@@ -26,7 +26,11 @@
 				<h3>{{ item.name }}</h3>
 				<p class="card-description">{{ item.description }}</p>
 				<div class="card-image-box">
-					<img [src]="item.image" [alt]="item.name" class="card-image" loading="lazy" />
+					@if (item.imageUrl) {
+						<img [src]="item.imageUrl" [alt]="item.name" class="card-image" loading="lazy" />
+					} @else {
+						<div class="card-image-placeholder">Image will appear after admin upload</div>
+					}
 				</div>
 				<p class="card-price">{{ item.price }}</p>
 			</article>
