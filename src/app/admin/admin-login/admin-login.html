@@ -1,2 +1,43 @@
-<h1>Admin Login Page</h1>
-<p>Admin login form will come here.</p>
+<section class="admin-login-page" aria-labelledby="admin-login-title">
+  <div class="admin-login-card">
+    <h1 id="admin-login-title">Admin Login</h1>
+    <p class="subtext">Use your username and password to continue.</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submitLogin()" novalidate>
+      <label for="username">Username</label>
+      <input
+        id="username"
+        type="text"
+        formControlName="username"
+        autocomplete="username"
+        placeholder="Enter username"
+      />
+      @if (loginForm.controls.username.touched && loginForm.controls.username.invalid) {
+        <p class="field-error">Username is required.</p>
+      }
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        autocomplete="current-password"
+        placeholder="Enter password"
+      />
+      @if (loginForm.controls.password.touched && loginForm.controls.password.hasError('required')) {
+        <p class="field-error">Password is required.</p>
+      }
+      @if (loginForm.controls.password.touched && loginForm.controls.password.hasError('minlength')) {
+        <p class="field-error">Password must be at least 6 characters.</p>
+      }
+
+      @if (errorMessage()) {
+        <p class="login-error">{{ errorMessage() }}</p>
+      }
+
+      <button type="submit" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Signing In...' : 'Login' }}
+      </button>
+    </form>
+  </div>
+</section>
