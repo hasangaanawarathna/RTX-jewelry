@@ -1,0 +1,159 @@
+:host {
+	--rtx-black: #121212;
+	--rtx-gold: #c69f54;
+	--rtx-gold-soft: #ecd09b;
+	--rtx-cream: #f9f4e8;
+	--rtx-white: #ffffff;
+	--rtx-text: #2a2419;
+	display: block;
+	color: var(--rtx-text);
+}
+
+.feedback-hero {
+	background:
+		radial-gradient(circle at 18% 22%, rgba(198, 159, 84, 0.22), transparent 38%),
+		linear-gradient(135deg, #111111, #211c15 52%, #111111);
+	color: var(--rtx-white);
+	padding: 72px 20px;
+}
+
+.feedback-hero > * {
+	max-width: 920px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.eyebrow {
+	margin: 0 0 8px;
+	color: #8a6a30;
+	font-size: 0.82rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.feedback-hero .eyebrow {
+	color: var(--rtx-gold-soft);
+}
+
+h1,
+h2,
+h3 {
+	color: var(--rtx-black);
+}
+
+h1 {
+	margin-top: 0;
+	margin-bottom: 16px;
+	color: var(--rtx-white);
+	font-size: clamp(2rem, 4vw, 3.4rem);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.feedback-hero p:last-child {
+	margin-top: 0;
+	margin-bottom: 0;
+	color: #f8ebd3;
+	line-height: 1.8;
+}
+
+.about-company,
+.feedback-section,
+.feedback-note {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 52px 20px;
+}
+
+.about-company {
+	display: grid;
+	grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+	gap: 28px;
+	align-items: start;
+}
+
+.about-copy h2,
+.section-header h2,
+.feedback-note h2 {
+	margin: 0;
+	font-size: 1.45rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.about-copy p:not(.eyebrow),
+.feedback-note p {
+	max-width: 820px;
+	margin: 14px 0 0;
+	line-height: 1.8;
+}
+
+.company-values {
+	display: grid;
+	gap: 12px;
+}
+
+.value-item,
+.review-card {
+	background: var(--rtx-white);
+	border: 1px solid rgba(198, 159, 84, 0.32);
+	border-radius: 8px;
+	padding: 18px;
+	box-shadow: 0 10px 26px rgba(18, 18, 18, 0.06);
+}
+
+.value-item h3,
+.review-card h3 {
+	margin: 0 0 8px;
+	font-size: 1rem;
+	color: #3f3218;
+}
+
+.value-item p,
+.review-card p {
+	margin: 0;
+	line-height: 1.65;
+}
+
+.feedback-section {
+	border-top: 1px solid rgba(198, 159, 84, 0.2);
+}
+
+.section-header {
+	margin-bottom: 20px;
+}
+
+.review-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 18px;
+}
+
+.review-card {
+	background: #fffdf8;
+}
+
+.review-card h3 {
+	margin-top: 16px;
+	margin-bottom: 0;
+}
+
+.feedback-note {
+	background: linear-gradient(180deg, rgba(198, 159, 84, 0.09), rgba(198, 159, 84, 0.03));
+	border-top: 1px solid rgba(198, 159, 84, 0.2);
+	border-bottom: 1px solid rgba(198, 159, 84, 0.2);
+}
+
+@media (max-width: 880px) {
+	.about-company,
+	.review-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 640px) {
+	.feedback-hero {
+		padding-top: 56px;
+	}
+}
