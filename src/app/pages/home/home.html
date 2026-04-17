@@ -37,6 +37,27 @@
 	</div>
 </section>
 
+<section class="section-block offers-section" aria-labelledby="special-offers-title">
+	<div class="section-header">
+		<h2 id="special-offers-title">Special Offers</h2>
+		<a routerLink="/offers" class="section-link">See All Offers</a>
+	</div>
+
+	<div class="offers-grid">
+		@for (offer of specialOffers(); track offer.title) {
+			<article class="offer-card">
+				<p class="offer-discount">{{ offer.discount }}</p>
+				<h3>{{ offer.title }}</h3>
+				<p class="offer-summary">{{ offer.summary }}</p>
+				<div class="offer-meta">
+					<span>{{ offer.validUntil }}</span>
+					<span class="offer-code">Code: {{ offer.code }}</span>
+				</div>
+			</article>
+		}
+	</div>
+</section>
+
 <section class="section-block about-section" aria-labelledby="about-title">
 	<h2 id="about-title">Why RTX Jewelry</h2>
 	<p>
