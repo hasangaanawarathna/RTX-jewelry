@@ -189,6 +189,67 @@ h2 {
 	border-bottom: 1px solid rgba(198, 159, 84, 0.2);
 }
 
+.offers-section {
+	background: linear-gradient(180deg, #fffefb, #fef7ea);
+	border: 1px solid rgba(198, 159, 84, 0.25);
+	border-radius: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.offers-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.offer-card {
+	background: var(--rtx-white);
+	border: 1px solid rgba(198, 159, 84, 0.4);
+	border-radius: 14px;
+	padding: 16px;
+	box-shadow: 0 8px 20px rgba(18, 18, 18, 0.05);
+}
+
+.offer-discount {
+	display: inline-block;
+	margin: 0;
+	padding: 4px 10px;
+	border-radius: 999px;
+	background: rgba(198, 159, 84, 0.15);
+	color: #5a431d;
+	font-weight: 700;
+	font-size: 0.82rem;
+	letter-spacing: 0.02em;
+}
+
+.offer-card h3 {
+	margin: 10px 0 8px;
+	color: #2a2113;
+	font-size: 1.08rem;
+}
+
+.offer-summary {
+	margin: 0;
+	line-height: 1.6;
+	color: var(--rtx-text);
+}
+
+.offer-meta {
+	margin-top: 14px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 8px;
+	color: #6e5628;
+	font-size: 0.9rem;
+}
+
+.offer-code {
+	font-weight: 700;
+	color: #5f471f;
+}
+
 .about-section p {
 	margin: 14px 0 0;
 	max-width: 900px;
@@ -242,6 +303,10 @@ h2 {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
+	.offers-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
 	.split-section {
 		grid-template-columns: 1fr;
 	}
@@ -254,6 +319,15 @@ h2 {
 
 	.card-grid {
 		grid-template-columns: 1fr;
+	}
+
+	.offers-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.offer-meta {
+		flex-direction: column;
+		align-items: flex-start;
 	}
 
 	.section-header {
