@@ -49,6 +49,30 @@ export class Home {
     }
   ]);
 
+  readonly specialOffers = signal([
+    {
+      title: 'Akshaya Tritiya Gold Sale',
+      summary: 'Enjoy reduced making charges on selected 22K gold items this weekend.',
+      discount: 'Save up to LKR 18,000',
+      validUntil: 'Valid until Sunday',
+      code: 'AKSHAYA2026'
+    },
+    {
+      title: 'Wedding Collection Bundle',
+      summary: 'Get special pricing when you buy matching necklace, earrings, and bangles.',
+      discount: 'Bundle savings 12%',
+      validUntil: 'Limited bridal season offer',
+      code: 'BRIDAL12'
+    },
+    {
+      title: 'Diamond Ring Upgrade',
+      summary: 'Trade in your old ring and receive extra value toward a certified diamond ring.',
+      discount: 'Extra LKR 25,000 value',
+      validUntil: 'This month only',
+      code: 'UPGRADE25'
+    }
+  ]);
+
   readonly feedbackPreview = signal([
     {
       name: 'Nethmi',
