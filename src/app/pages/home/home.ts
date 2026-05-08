@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Product, ProductItem } from '../../services/product';
 import { catchError, of } from 'rxjs';
+import { DEMO_FEEDBACK, DEMO_OFFERS, DEMO_PRODUCTS } from '../../data/demo-store';
+import { Feedback, FeedbackItem } from '../../services/feedback';
+import { Offer, OfferItem } from '../../services/offer';
+import { Product, ProductItem } from '../../services/product';
 
 @Component({
   selector: 'app-home',
@@ -13,87 +16,45 @@ import { catchError, of } from 'rxjs';
 })
 export class Home {
   private readonly productService = inject(Product);
+  private readonly offerService = inject(Offer);
+  private readonly feedbackService = inject(Feedback);
 
-  readonly featuredJewelry = signal<ProductItem[]>([
-    {
-      name: 'Royal Gold Necklace',
-      category: 'Necklace',
-      description: 'A bold necklace crafted for special celebrations and modern elegance.',
-      imageUrl: null,
-      price: 'LKR 185,000'
-    },
-    {
-      name: 'Diamond Bloom Ring',
-      category: 'Ring',
-      description: 'Floral-inspired ring design with a bright premium finish.',
-      imageUrl: null,
-      price: 'LKR 98,000'
-    },
-    {
-      name: 'Pearl Grace Earrings',
-      category: 'Earrings',
-      description: 'Lightweight pearl earrings with timeless detail and daily comfort.',
-      imageUrl: null,
-      price: 'LKR 64,500'
-    }
-  ]);
-
-  readonly offerHighlights = signal([
-    {
-      title: 'Festival Gold Week',
-      summary: 'Up to 15% off selected gold collections this week.'
-    },
-    {
-      title: 'Bridal Set Savings',
-      summary: 'Special bundle pricing on matching bridal sets.'
-    }
-  ]);
-
-  readonly specialOffers = signal([
-    {
-      title: 'Akshaya Tritiya Gold Sale',
-      summary: 'Enjoy reduced making charges on selected 22K gold items this weekend.',
-      discount: 'Save up to LKR 18,000',
-      validUntil: 'Valid until Sunday',
-      code: 'AKSHAYA2026'
-    },
-    {
-      title: 'Wedding Collection Bundle',
-      summary: 'Get special pricing when you buy matching necklace, earrings, and bangles.',
-      discount: 'Bundle savings 12%',
-      validUntil: 'Limited bridal season offer',
-      code: 'BRIDAL12'
-    },
-    {
-      title: 'Diamond Ring Upgrade',
-      summary: 'Trade in your old ring and receive extra value toward a certified diamond ring.',
-      discount: 'Extra LKR 25,000 value',
-      validUntil: 'This month only',
-      code: 'UPGRADE25'
-    }
-  ]);
-
-  readonly feedbackPreview = signal([
-    {
-      name: 'Nethmi',
-      message: 'Excellent craftsmanship and very professional service.'
-    },
-    {
-      name: 'Ishan',
-      message: 'The design consultation was smooth and personalized.'
-    }
-  ]);
+  readonly featuredJewelry = signal<ProductItem[]>(DEMO_PRODUCTS.slice(0, 3));
+  readonly specialOffers = signal<OfferItem[]>(DEMO_OFFERS);
+  readonly feedbackPreview = signal<FeedbackItem[]>(DEMO_FEEDBACK);
 
   constructor() {
     this.loadFeaturedJewelry();
+    this.loadSpecialOffers();
+    this.loadFeedbackPreview();
   }
 
   private loadFeaturedJewelry(): void {
     this.productService.getFeaturedProducts()
-      .pipe(catchError(() => of([])))
+      .pipe(catchError(() => of(DEMO_PRODUCTS.slice(0, 3))))
       .subscribe((items) => {
         if (items.length > 0) {
-          this.featuredJewelry.set(items);
+          this.featuredJewelry.set(items.slice(0, 3));
+        }
+      });
+  }
+
+  private loadSpecialOffers(): void {
+    this.offerService.getOffers()
+      .pipe(catchError(() => of(DEMO_OFFERS)))
+      .subscribe((items) => {
+        if (items.length > 0) {
+          this.specialOffers.set(items.slice(0, 3));
+        }
+      });
+  }
+
+  private loadFeedbackPreview(): void {
+    this.feedbackService.getFeedback()
+      .pipe(catchError(() => of(DEMO_FEEDBACK)))
+      .subscribe((items) => {
+        if (items.length > 0) {
+          this.feedbackPreview.set(items.slice(0, 3));
         }
       });
   }
