@@ -4,6 +4,7 @@ import { Products } from './pages/products/products';
 import { ProductDetails } from './pages/product-details/product-details';
 import { Feedback } from './pages/feedback/feedback';
 import { Offers } from './pages/offers/offers';
+import { ContactPage } from './pages/contact/contact';
 import { AdminLogin } from './admin/admin-login/admin-login';
 import { AdminDashboard } from './admin/admin-dashboard/admin-dashboard';
 
@@ -13,6 +14,8 @@ export const routes: Routes = [
   { path: 'products/:id', component: ProductDetails },
   { path: 'feedback', component: Feedback },
   { path: 'offers', component: Offers },
+  { path: 'contact', component: ContactPage },
   { path: 'admin/login', component: AdminLogin },
-  { path: 'admin/dashboard', component: AdminDashboard }
+  { path: 'admin/dashboard', component: AdminDashboard },
+  { path: '**', redirectTo: '' }
 ];
