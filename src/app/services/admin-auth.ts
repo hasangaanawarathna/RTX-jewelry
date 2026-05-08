@@ -44,11 +44,17 @@ export class AdminAuth {
   }
 
   isAuthenticated(): boolean {
-    return this.token() !== null;
+    return this.getToken() !== null;
   }
 
   getToken(): string | null {
-    return this.token();
+    const storedToken = this.readStoredToken();
+
+    if (storedToken !== this.token()) {
+      this.token.set(storedToken);
+    }
+
+    return storedToken;
   }
 
   private validateDemoLogin(payload: AdminLoginPayload): AdminLoginResult {

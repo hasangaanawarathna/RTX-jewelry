@@ -18,8 +18,11 @@
       <div class="form-row">
         <label for="customerName">Customer name</label>
         <input id="customerName" type="text" formControlName="customerName" autocomplete="name" />
-        @if (inquiryForm.controls.customerName.touched && inquiryForm.controls.customerName.invalid) {
+        @if (inquiryForm.controls.customerName.touched && inquiryForm.controls.customerName.hasError('required')) {
           <p class="field-error">Name is required.</p>
+        }
+        @if (inquiryForm.controls.customerName.touched && inquiryForm.controls.customerName.hasError('minlength')) {
+          <p class="field-error">Name must be at least 2 characters.</p>
         }
       </div>
 

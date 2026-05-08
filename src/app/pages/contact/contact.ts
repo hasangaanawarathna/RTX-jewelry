@@ -1,11 +1,14 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { DEMO_PRODUCTS } from '../../data/demo-store';
+import { getApiErrorMessage } from '../../services/api-error';
 import { Contact, InquiryPayload } from '../../services/contact';
 import { Product, ProductItem } from '../../services/product';
+import { Toast } from '../../services/toast';
 
 @Component({
   selector: 'app-contact',
@@ -20,6 +23,7 @@ export class ContactPage {
   private readonly productService = inject(Product);
   private readonly contactService = inject(Contact);
   private readonly route = inject(ActivatedRoute);
+  private readonly toast = inject(Toast);
 
   readonly products = signal<ProductItem[]>(DEMO_PRODUCTS);
   readonly isSubmitting = signal(false);
@@ -60,14 +64,22 @@ export class ContactPage {
       next: () => {
         this.isSubmitting.set(false);
         this.successMessage.set('Your inquiry has been sent. Our team will contact you soon.');
+        this.toast.success('Inquiry sent successfully.');
         this.inquiryForm.reset({ productId: 'general' });
       },
-      error: () => {
+      error: (error: unknown) => {
         this.isSubmitting.set(false);
-        this.successMessage.set(
-          'Inquiry captured for frontend preview. Connect the backend API to store and manage it.'
-        );
-        this.inquiryForm.reset({ productId: 'general' });
+        if (error instanceof HttpErrorResponse && error.status === 0) {
+          this.successMessage.set(
+            'Inquiry captured for frontend preview. Connect the backend API to store and manage it.'
+          );
+          this.toast.info('Backend unavailable. Inquiry captured in the frontend preview.');
+          this.inquiryForm.reset({ productId: 'general' });
+          return;
+        }
+
+        this.errorMessage.set(getApiErrorMessage(error, 'Inquiry could not be sent.'));
+        this.toast.error(this.errorMessage() ?? 'Inquiry could not be sent.');
       },
     });
   }

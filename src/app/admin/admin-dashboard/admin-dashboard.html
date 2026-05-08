@@ -25,22 +25,29 @@
     </article>
     <article>
       <span>Recent inquiries</span>
-      <strong>{{ recentInquiries().length }}</strong>
+      <strong>{{ totalInquiries() }}</strong>
+    </article>
+    <article>
+      <span>Pending feedback</span>
+      <strong>{{ pendingFeedback() }}</strong>
     </article>
   </div>
 
   <nav class="management-nav" aria-label="Admin management navigation">
-    <a href="#product-management">Product Management</a>
-    <a href="#offer-management">Offer Management</a>
-    <a href="#feedback-management">Feedback Management</a>
-    <a href="#inquiry-management">Inquiry Management</a>
+    <a routerLink="/admin/products">Product Management</a>
+    <a routerLink="/admin/offers">Offer Management</a>
+    <a routerLink="/admin/feedback">Feedback Management</a>
+    <a routerLink="/admin/inquiries">Inquiry Management</a>
   </nav>
 
   <section class="dashboard-grid" aria-label="Management panels">
     <article id="product-management" class="management-panel">
       <div class="panel-header">
-        <p class="eyebrow">Products</p>
-        <h2>Product Management</h2>
+        <div>
+          <p class="eyebrow">Products</p>
+          <h2>Product Management</h2>
+        </div>
+        <a routerLink="/admin/products">Manage</a>
       </div>
       <div class="compact-list">
         @for (product of products().slice(0, 4); track product.id) {
@@ -55,8 +62,11 @@
 
     <article id="offer-management" class="management-panel">
       <div class="panel-header">
-        <p class="eyebrow">Offers</p>
-        <h2>Offer Management</h2>
+        <div>
+          <p class="eyebrow">Offers</p>
+          <h2>Offer Management</h2>
+        </div>
+        <a routerLink="/admin/offers">Manage</a>
       </div>
       <div class="compact-list">
         @for (offer of offers(); track offer.id) {
@@ -71,8 +81,11 @@
 
     <article id="feedback-management" class="management-panel">
       <div class="panel-header">
-        <p class="eyebrow">Feedback</p>
-        <h2>Feedback Management</h2>
+        <div>
+          <p class="eyebrow">Feedback</p>
+          <h2>Feedback Management</h2>
+        </div>
+        <a routerLink="/admin/feedback">Manage</a>
       </div>
       <div class="compact-list">
         @for (feedback of feedbackItems().slice(0, 4); track feedback.id) {
@@ -87,8 +100,11 @@
 
     <article id="inquiry-management" class="management-panel wide">
       <div class="panel-header">
-        <p class="eyebrow">Inquiries</p>
-        <h2>Inquiry Management</h2>
+        <div>
+          <p class="eyebrow">Inquiries</p>
+          <h2>Inquiry Management</h2>
+        </div>
+        <a routerLink="/admin/inquiries">Manage</a>
       </div>
       <div class="inquiry-table" role="table" aria-label="Recent inquiries">
         <div class="table-row table-head" role="row">

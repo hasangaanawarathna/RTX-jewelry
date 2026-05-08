@@ -3,12 +3,10 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { AdminAuth } from './admin-auth';
 
 export const authInterceptor: HttpInterceptorFn = (request, next) => {
-  const auth = inject(AdminAuth);
   const router = inject(Router);
-  const token = auth.getToken();
+  const token = localStorage.getItem('admin_token');
   const isApiRequest =
     request.url.startsWith(environment.apiBaseUrl) || request.url.startsWith('/api/');
 
@@ -28,7 +26,7 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
         error.status === 401 &&
         !request.url.includes('/admin/login')
       ) {
-        auth.logout();
+        localStorage.removeItem('admin_token');
         router.navigate(['/admin/login']);
       }
 
