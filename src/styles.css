@@ -13,6 +13,66 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #9a6b2d;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+app-home .btn {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-weight: 800;
+  padding: 12px 18px;
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+app-home .btn:hover,
+app-home .btn:focus-visible {
+  transform: translateY(-1px);
+  outline: none;
+}
+
+app-home .section-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+app-home h2 {
+  margin-bottom: 0;
+  color: #151515;
+  font-size: 1.65rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+app-home .section-link {
+  color: #6f4a16;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+app-home .section-link:hover,
+app-home .section-link:focus-visible {
+  color: #123d34;
+  text-decoration: underline;
+  outline: none;
+}
+
 img {
   max-width: 100%;
 }
