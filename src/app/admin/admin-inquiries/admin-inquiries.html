@@ -1,0 +1,68 @@
+<section class="admin-page" aria-labelledby="inquiries-title">
+  <div class="admin-header">
+    <div>
+      <p class="eyebrow">Inquiry Management</p>
+      <h1 id="inquiries-title">Customer Inquiries</h1>
+      <p>Track customer requests and update whether each inquiry is pending, contacted, replied, or closed.</p>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <p class="alert">{{ errorMessage() }}</p>
+  }
+
+  @if (isLoading()) {
+    <div class="skeleton-list" aria-label="Loading inquiries">
+      <div class="skeleton-row"></div>
+      <div class="skeleton-row"></div>
+      <div class="skeleton-row"></div>
+    </div>
+  } @else if (inquiries().length === 0) {
+    <div class="empty-state">
+      <h2>No Inquiries Yet</h2>
+      <p>Product and contact inquiries will appear here when customers submit the contact form.</p>
+    </div>
+  } @else {
+    <div class="inquiry-list">
+      @for (inquiry of inquiries(); track inquiry.id) {
+        <article class="inquiry-card">
+          <div class="inquiry-main">
+            <div>
+              <div class="card-topline">
+                <span
+                  class="reply-badge"
+                  [class.replied]="isReplied(inquiry.status)"
+                  [class.pending]="!isReplied(inquiry.status)"
+                >
+                  {{ isReplied(inquiry.status) ? 'Replied' : 'Pending' }}
+                </span>
+                <span class="status-pill">{{ inquiry.status }}</span>
+              </div>
+              <h2>{{ inquiry.customerName }}</h2>
+              <p class="product-name">{{ inquiry.productName }}</p>
+              <p class="message">{{ inquiry.message }}</p>
+            </div>
+            <div class="contact-box">
+              <p><span>Phone</span>{{ inquiry.phone }}</p>
+              <p><span>Email</span>{{ inquiry.email }}</p>
+              <p><span>Received</span>{{ inquiry.createdAt }}</p>
+            </div>
+          </div>
+
+          <label class="status-control">
+            <span>Update status</span>
+            <select
+              [value]="inquiry.status"
+              [disabled]="updatingId() === inquiry.id"
+              (change)="updateStatus(inquiry, $event)"
+            >
+              @for (status of statuses; track status) {
+                <option [value]="status">{{ status }}</option>
+              }
+            </select>
+          </label>
+        </article>
+      }
+    </div>
+  }
+</section>

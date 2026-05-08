@@ -1,0 +1,84 @@
+<section class="form-page" aria-labelledby="offer-form-title">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a routerLink="/admin/offers">Offers</a>
+    <span>/</span>
+    <span>{{ isEditMode() ? 'Edit Offer' : 'Add Offer' }}</span>
+  </nav>
+
+  <div class="form-header">
+    <p class="eyebrow">Offer Management</p>
+    <h1 id="offer-form-title">{{ isEditMode() ? 'Edit Offer' : 'Add Offer' }}</h1>
+  </div>
+
+  @if (errorMessage()) {
+    <p class="alert">{{ errorMessage() }}</p>
+  }
+
+  @if (isLoading()) {
+    <div class="skeleton-panel"></div>
+  } @else {
+    <form [formGroup]="offerForm" (ngSubmit)="submitOffer()" novalidate>
+      <div class="form-row">
+        <label for="title">Offer title</label>
+        <input id="title" type="text" formControlName="title" />
+        @if (offerForm.controls.title.touched && offerForm.controls.title.invalid) {
+          <p class="field-error">Offer title is required.</p>
+        }
+      </div>
+
+      <div class="form-row">
+        <label for="description">Description</label>
+        <textarea id="description" rows="5" formControlName="description"></textarea>
+        @if (offerForm.controls.description.touched && offerForm.controls.description.hasError('required')) {
+          <p class="field-error">Description is required.</p>
+        }
+        @if (offerForm.controls.description.touched && offerForm.controls.description.hasError('minlength')) {
+          <p class="field-error">Description must be at least 10 characters.</p>
+        }
+      </div>
+
+      <div class="form-grid">
+        <div class="form-row">
+          <label for="discount">Discount</label>
+          <input id="discount" type="text" formControlName="discount" placeholder="15% off" />
+          @if (offerForm.controls.discount.touched && offerForm.controls.discount.invalid) {
+            <p class="field-error">Discount is required.</p>
+          }
+        </div>
+
+        <div class="form-row">
+          <label for="code">Offer code</label>
+          <input id="code" type="text" formControlName="code" />
+          @if (offerForm.controls.code.touched && offerForm.controls.code.invalid) {
+            <p class="field-error">Offer code is required.</p>
+          }
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-row">
+          <label for="validFrom">Valid from</label>
+          <input id="validFrom" type="text" formControlName="validFrom" placeholder="May 8, 2026" />
+          @if (offerForm.controls.validFrom.touched && offerForm.controls.validFrom.invalid) {
+            <p class="field-error">Start date is required.</p>
+          }
+        </div>
+
+        <div class="form-row">
+          <label for="validUntil">Valid until</label>
+          <input id="validUntil" type="text" formControlName="validUntil" placeholder="May 31, 2026" />
+          @if (offerForm.controls.validUntil.touched && offerForm.controls.validUntil.invalid) {
+            <p class="field-error">Expiry date is required.</p>
+          }
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="isSaving()">
+          {{ isSaving() ? 'Saving...' : isEditMode() ? 'Update Offer' : 'Add Offer' }}
+        </button>
+        <a routerLink="/admin/offers">Cancel</a>
+      </div>
+    </form>
+  }
+</section>

@@ -1,0 +1,222 @@
+:host {
+  display: block;
+  color: #241f1a;
+}
+
+.admin-page {
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 42px 0 68px;
+}
+
+.admin-header {
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #9a6b2d;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 12px;
+  color: #171717;
+  font-size: 2.6rem;
+  line-height: 1.08;
+  text-transform: uppercase;
+}
+
+.admin-header p:last-child {
+  max-width: 720px;
+  margin-bottom: 0;
+  color: #4d4232;
+  line-height: 1.65;
+}
+
+.alert {
+  border: 1px solid rgba(180, 35, 24, 0.24);
+  border-radius: 8px;
+  background: rgba(180, 35, 24, 0.08);
+  color: #8f1f16;
+  padding: 12px 14px;
+}
+
+.inquiry-list,
+.skeleton-list {
+  display: grid;
+  gap: 14px;
+}
+
+.inquiry-card,
+.empty-state,
+.skeleton-row {
+  border: 1px solid rgba(126, 92, 36, 0.22);
+  border-radius: 8px;
+  background: #fffdf8;
+  box-shadow: 0 12px 28px rgba(18, 18, 18, 0.06);
+}
+
+.inquiry-card {
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+}
+
+.inquiry-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
+  gap: 18px;
+}
+
+.card-topline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.reply-badge,
+.status-pill {
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 900;
+  padding: 7px 9px;
+}
+
+.reply-badge.replied {
+  background: rgba(31, 116, 87, 0.12);
+  color: #165f48;
+}
+
+.reply-badge.pending {
+  background: rgba(154, 107, 45, 0.14);
+  color: #7b5420;
+}
+
+.status-pill {
+  background: rgba(18, 61, 52, 0.1);
+  color: #123d34;
+}
+
+h2 {
+  margin-bottom: 6px;
+  color: #171717;
+  font-size: 1.25rem;
+}
+
+.product-name {
+  color: #9a6b2d;
+  font-weight: 900;
+}
+
+.message {
+  color: #4d4232;
+  line-height: 1.65;
+}
+
+.contact-box {
+  display: grid;
+  gap: 10px;
+  align-self: start;
+  border-radius: 8px;
+  background: rgba(18, 61, 52, 0.07);
+  padding: 14px;
+}
+
+.contact-box p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.contact-box span,
+.status-control span {
+  display: block;
+  color: #6f4a16;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status-control {
+  display: grid;
+  gap: 7px;
+  max-width: 260px;
+}
+
+select {
+  width: 100%;
+  border: 1px solid rgba(83, 65, 38, 0.28);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #241f1a;
+  font: inherit;
+  padding: 11px 12px;
+  outline: none;
+}
+
+select:focus {
+  border-color: #b4833c;
+  box-shadow: 0 0 0 3px rgba(180, 131, 60, 0.18);
+}
+
+select:disabled {
+  opacity: 0.62;
+}
+
+.empty-state {
+  display: grid;
+  gap: 10px;
+  padding: 22px;
+}
+
+.empty-state h2,
+.empty-state p {
+  margin: 0;
+}
+
+.skeleton-row {
+  min-height: 150px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.78), transparent),
+    #eee3d1;
+  background-size: 220% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -220% 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .inquiry-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-page {
+    width: min(100% - 28px, 1200px);
+  }
+
+  h1 {
+    font-size: 2.1rem;
+  }
+
+  .status-control {
+    max-width: none;
+  }
+}

@@ -1,0 +1,62 @@
+<section class="admin-page" aria-labelledby="offers-title">
+  <div class="admin-header">
+    <div>
+      <p class="eyebrow">Offer Management</p>
+      <h1 id="offers-title">Offers</h1>
+      <p>Create, edit, and remove discounts shown on the customer offers page.</p>
+    </div>
+    <a routerLink="/admin/offers/new" class="primary-action">Add Offer</a>
+  </div>
+
+  @if (errorMessage()) {
+    <p class="alert">{{ errorMessage() }}</p>
+  }
+
+  @if (isLoading()) {
+    <div class="skeleton-grid" aria-label="Loading offers">
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+    </div>
+  } @else if (offers().length === 0) {
+    <div class="empty-state">
+      <h2>No Offers Yet</h2>
+      <p>Add a promotion when the shop is ready to publish a seasonal discount.</p>
+      <a routerLink="/admin/offers/new" class="primary-action">Add Offer</a>
+    </div>
+  } @else {
+    <div class="offer-grid">
+      @for (offer of offers(); track offer.id) {
+        <article class="offer-card">
+          <div class="offer-topline">
+            <span class="discount">{{ offer.discount }}</span>
+            <span class="code">Code: {{ offer.code }}</span>
+          </div>
+          <h2>{{ offer.title }}</h2>
+          <p>{{ offer.description }}</p>
+          <dl>
+            <div>
+              <dt>Starts</dt>
+              <dd>{{ offer.validFrom }}</dd>
+            </div>
+            <div>
+              <dt>Expires</dt>
+              <dd>{{ offer.validUntil }}</dd>
+            </div>
+          </dl>
+          <div class="actions">
+            <a [routerLink]="['/admin/offers', offer.id, 'edit']">Edit</a>
+            <button
+              type="button"
+              class="danger"
+              [disabled]="deletingId() === offer.id"
+              (click)="deleteOffer(offer)"
+            >
+              {{ deletingId() === offer.id ? 'Deleting...' : 'Delete' }}
+            </button>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

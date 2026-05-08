@@ -1,0 +1,74 @@
+<section class="admin-page" aria-labelledby="feedback-title">
+  <div class="admin-header">
+    <div>
+      <p class="eyebrow">Feedback Management</p>
+      <h1 id="feedback-title">Customer Feedback</h1>
+      <p>Approve, reject, or delete customer reviews before they are used publicly.</p>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <p class="alert">{{ errorMessage() }}</p>
+  }
+
+  @if (isLoading()) {
+    <div class="skeleton-grid" aria-label="Loading feedback">
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+    </div>
+  } @else if (feedbackItems().length === 0) {
+    <div class="empty-state">
+      <h2>No Feedback Yet</h2>
+      <p>Customer reviews will appear here after submissions are received.</p>
+    </div>
+  } @else {
+    <div class="feedback-grid">
+      @for (feedback of feedbackItems(); track feedback.id) {
+        <article class="feedback-card">
+          <div class="card-topline">
+            <span
+              class="status-badge"
+              [class.approved]="feedback.status === 'Approved'"
+              [class.pending]="feedback.status === 'Pending'"
+              [class.rejected]="feedback.status === 'Rejected'"
+            >
+              {{ feedback.status }}
+            </span>
+            <span class="rating">{{ feedback.rating }}/5</span>
+          </div>
+          <p class="message">{{ feedback.message }}</p>
+          <div class="customer-row">
+            <strong>{{ feedback.customerName }}</strong>
+            <span>{{ feedback.createdAt }}</span>
+          </div>
+
+          <div class="actions">
+            <button
+              type="button"
+              [disabled]="activeId() === feedback.id || feedback.status === 'Approved'"
+              (click)="updateStatus(feedback, 'Approved')"
+            >
+              Approve
+            </button>
+            <button
+              type="button"
+              [disabled]="activeId() === feedback.id || feedback.status === 'Rejected'"
+              (click)="updateStatus(feedback, 'Rejected')"
+            >
+              Reject
+            </button>
+            <button
+              type="button"
+              class="danger"
+              [disabled]="activeId() === feedback.id"
+              (click)="deleteFeedback(feedback)"
+            >
+              Delete
+            </button>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>
