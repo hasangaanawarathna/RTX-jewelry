@@ -1,2 +1,36 @@
-<h1>Offers Page</h1>
-<p>Offers and discounts will display here.</p>
+<section class="offers-hero" aria-labelledby="offers-title">
+  <div>
+    <p class="eyebrow">Current Offers</p>
+    <h1 id="offers-title">Jewelry Savings</h1>
+    <p>View active discounts, offer codes, and valid periods before choosing your next piece.</p>
+  </div>
+</section>
+
+<section class="offers-page" aria-label="Offers listing">
+  @if (isLoading()) {
+    <p class="status-text">Loading offers...</p>
+  }
+
+  <div class="offers-grid">
+    @for (offer of offers(); track offer.id) {
+      <article class="offer-card">
+        <div class="offer-topline">
+          <p class="discount">{{ offer.discount }}</p>
+          <p class="code">Code: {{ offer.code }}</p>
+        </div>
+        <h2>{{ offer.title }}</h2>
+        <p class="description">{{ offer.description }}</p>
+        <dl>
+          <div>
+            <dt>Starts</dt>
+            <dd>{{ offer.validFrom }}</dd>
+          </div>
+          <div>
+            <dt>Expires</dt>
+            <dd>{{ offer.validUntil }}</dd>
+          </div>
+        </dl>
+      </article>
+    }
+  </div>
+</section>

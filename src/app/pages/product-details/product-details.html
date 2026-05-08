@@ -1,2 +1,64 @@
-<h1>Product Details Page</h1>
-<p>Single jewelry item details will show here.</p>
+@if (product(); as item) {
+  <section class="details-page" aria-labelledby="product-title">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a routerLink="/products">Products</a>
+      <span>/</span>
+      <span>{{ item.name }}</span>
+    </nav>
+
+    <div class="details-layout">
+      <div class="gallery">
+        <div class="main-image">
+          @if (selectedImage()) {
+            <img [src]="selectedImage() ?? ''" [alt]="item.name" />
+          } @else {
+            <span>Product image pending</span>
+          }
+        </div>
+
+        @if (galleryImages().length > 1) {
+          <div class="thumbnail-row" aria-label="Product images">
+            @for (image of galleryImages(); track image) {
+              <button
+                type="button"
+                [class.active]="selectedImage() === image"
+                (click)="selectImage(image)"
+              >
+                <img [src]="image" [alt]="item.name" />
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <article class="product-summary">
+        <p class="eyebrow">{{ item.category }}</p>
+        <h1 id="product-title">{{ item.name }}</h1>
+        <p class="price">{{ item.price }}</p>
+        <p class="description">{{ item.description }}</p>
+
+        <dl class="product-meta">
+          <div>
+            <dt>Availability</dt>
+            <dd>{{ item.availability }}</dd>
+          </div>
+          <div>
+            <dt>Category</dt>
+            <dd>{{ item.category }}</dd>
+          </div>
+        </dl>
+
+        <a routerLink="/contact" [queryParams]="{ product: item.id }" class="inquiry-button">
+          Inquiry About This Product
+        </a>
+      </article>
+    </div>
+  </section>
+} @else {
+  <section class="not-found" aria-labelledby="not-found-title">
+    <p class="eyebrow">Product Details</p>
+    <h1 id="not-found-title">Product Not Found</h1>
+    <p>The selected product is unavailable or has been removed.</p>
+    <a routerLink="/products">Back To Products</a>
+  </section>
+}

@@ -1,2 +1,65 @@
-<h1>Products Page</h1>
-<p>Jewelry items will display here.</p>
+<section class="products-hero" aria-labelledby="products-title">
+  <div>
+    <p class="eyebrow">RTX Collection</p>
+    <h1 id="products-title">Jewelry Products</h1>
+    <p>Browse rings, necklaces, earrings, bracelets, and bridal collections with clean product details.</p>
+  </div>
+</section>
+
+<section class="products-page" aria-label="Product listing">
+  <div class="filters-bar">
+    <label class="search-field" for="productSearch">
+      <span>Search products</span>
+      <input
+        id="productSearch"
+        type="search"
+        [value]="searchTerm()"
+        (input)="updateSearch($event)"
+        placeholder="Search by name"
+      />
+    </label>
+
+    <div class="category-filter" aria-label="Category filter">
+      @for (category of categories; track category) {
+        <button
+          type="button"
+          [class.active]="selectedCategory() === category"
+          (click)="setCategory(category)"
+        >
+          {{ category }}
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <p class="status-text">Loading products...</p>
+  }
+
+  @if (filteredProducts().length > 0) {
+    <div class="product-grid">
+      @for (product of filteredProducts(); track product.id) {
+        <article class="product-card">
+          <a [routerLink]="['/products', product.id]" class="product-image" [attr.aria-label]="product.name">
+            @if (product.imageUrl) {
+              <img [src]="product.imageUrl" [alt]="product.name" loading="lazy" />
+            } @else {
+              <span>Product image pending</span>
+            }
+          </a>
+          <div class="product-copy">
+            <p class="product-category">{{ product.category }}</p>
+            <h2>{{ product.name }}</h2>
+            <p class="description">{{ product.description }}</p>
+            <div class="product-footer">
+              <p class="price">{{ product.price }}</p>
+              <a [routerLink]="['/products', product.id]" class="details-link">View Details</a>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    <p class="status-text">No products match your search.</p>
+  }
+</section>

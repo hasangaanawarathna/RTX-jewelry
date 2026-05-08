@@ -1,100 +1,115 @@
 <section class="hero-section" aria-label="RTX Jewelry introduction">
-	<div class="hero-content">
-		<p class="hero-tag">Premium Jewelry Studio</p>
-		<h1>RTX Jewelry</h1>
-		<p class="hero-text">
-			Discover handcrafted jewelry made to celebrate every moment. Elegant pieces, trusted quality,
-			and custom designs tailored to your style.
-		</p>
-		<div class="hero-actions">
-			<a routerLink="/products" class="btn btn-primary">Explore Collection</a>
-		</div>
-	</div>
+  <div class="hero-content">
+    <p class="hero-tag">Luxury Jewelry Studio</p>
+    <h1>RTX Jewelry</h1>
+    <p class="hero-text">
+      Handcrafted rings, necklaces, earrings, bracelets, and bridal sets made for moments that
+      deserve detail, polish, and trusted guidance.
+    </p>
+    <div class="hero-actions">
+      <a routerLink="/products" class="btn btn-primary">Explore Collection</a>
+      <a routerLink="/contact" class="btn btn-secondary">Make An Inquiry</a>
+    </div>
+  </div>
 </section>
 
 <section class="section-block" aria-labelledby="featured-title">
-	<div class="section-header">
-		<h2 id="featured-title">Featured Jewelry</h2>
-		<a routerLink="/products" class="section-link">View All Products</a>
-	</div>
+  <div class="section-header">
+    <div>
+      <p class="eyebrow">Featured Jewelry</p>
+      <h2 id="featured-title">Signature Pieces</h2>
+    </div>
+    <a routerLink="/products" class="section-link">View All Products</a>
+  </div>
 
-	<div class="card-grid">
-		@for (item of featuredJewelry(); track item.name) {
-			<article class="card">
-				<p class="card-category">{{ item.category }}</p>
-				<h3>{{ item.name }}</h3>
-				<p class="card-description">{{ item.description }}</p>
-				<div class="card-image-box">
-					@if (item.imageUrl) {
-						<img [src]="item.imageUrl" [alt]="item.name" class="card-image" loading="lazy" />
-					} @else {
-						<div class="card-image-placeholder">Image will appear after admin upload</div>
-					}
-				</div>
-				<p class="card-price">{{ item.price }}</p>
-			</article>
-		}
-	</div>
+  <div class="card-grid">
+    @for (item of featuredJewelry(); track item.id) {
+      <article class="product-card">
+        <a [routerLink]="['/products', item.id]" class="image-link" [attr.aria-label]="item.name">
+          @if (item.imageUrl) {
+            <img [src]="item.imageUrl" [alt]="item.name" loading="lazy" />
+          } @else {
+            <span class="image-placeholder">Product image pending</span>
+          }
+        </a>
+        <div class="card-body">
+          <p class="card-category">{{ item.category }}</p>
+          <h3>{{ item.name }}</h3>
+          <p class="card-description">{{ item.description }}</p>
+          <p class="card-price">{{ item.price }}</p>
+        </div>
+      </article>
+    }
+  </div>
 </section>
 
-<section class="section-block offers-section" aria-labelledby="special-offers-title">
-	<div class="section-header">
-		<h2 id="special-offers-title">Special Offers</h2>
-		<a routerLink="/offers" class="section-link">See All Offers</a>
-	</div>
+<section class="offer-band" aria-labelledby="special-offers-title">
+  <div class="section-block">
+    <div class="section-header">
+      <div>
+        <p class="eyebrow">Special Offers</p>
+        <h2 id="special-offers-title">Current Savings</h2>
+      </div>
+      <a routerLink="/offers" class="section-link">See All Offers</a>
+    </div>
 
-	<div class="offers-grid">
-		@for (offer of specialOffers(); track offer.title) {
-			<article class="offer-card">
-				<p class="offer-discount">{{ offer.discount }}</p>
-				<h3>{{ offer.title }}</h3>
-				<p class="offer-summary">{{ offer.summary }}</p>
-				<div class="offer-meta">
-					<span>{{ offer.validUntil }}</span>
-					<span class="offer-code">Code: {{ offer.code }}</span>
-				</div>
-			</article>
-		}
-	</div>
+    <div class="offers-grid">
+      @for (offer of specialOffers(); track offer.id) {
+        <article class="offer-card">
+          <p class="offer-discount">{{ offer.discount }}</p>
+          <h3>{{ offer.title }}</h3>
+          <p class="offer-summary">{{ offer.description }}</p>
+          <div class="offer-meta">
+            <span>{{ offer.validUntil }}</span>
+            <span class="offer-code">Code: {{ offer.code }}</span>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
 </section>
 
-<section class="section-block about-section" aria-labelledby="about-title">
-	<h2 id="about-title">Why RTX Jewelry</h2>
-	<p>
-		At RTX Jewelry, we blend modern design with traditional craftsmanship to create pieces that feel
-		personal and timeless. Every item is carefully finished to match our quality standard and your
-		expectations.
-	</p>
+<section class="section-block why-section" aria-labelledby="about-title">
+  <div class="why-copy">
+    <p class="eyebrow">Why Choose Us</p>
+    <h2 id="about-title">Designed With Care, Finished With Trust</h2>
+    <p>
+      RTX Jewelry blends modern silhouettes with traditional craftsmanship. Each item is selected,
+      polished, and checked so customers can choose fine jewelry with confidence.
+    </p>
+  </div>
+  <div class="why-grid">
+    <article>
+      <h3>Quality Assurance</h3>
+      <p>Materials, finishing, clasps, and fit are reviewed before every customer handover.</p>
+    </article>
+    <article>
+      <h3>Craftsmanship</h3>
+      <p>Our pieces balance clean design, detailed setting work, and comfortable daily wear.</p>
+    </article>
+    <article>
+      <h3>Personal Guidance</h3>
+      <p>Customers receive support for sizing, pairing, bridal styling, and custom inquiries.</p>
+    </article>
+  </div>
 </section>
 
-<section class="section-block split-section" aria-label="Offer and feedback previews">
-	<div class="split-card">
-		<div class="section-header compact">
-			<h2>Current Offers</h2>
-			<a routerLink="/offers" class="section-link">See All Offers</a>
-		</div>
-		<div class="mini-list">
-			@for (offer of offerHighlights(); track offer.title) {
-				<article class="mini-item">
-					<h3>{{ offer.title }}</h3>
-					<p>{{ offer.summary }}</p>
-				</article>
-			}
-		</div>
-	</div>
+<section class="section-block feedback-preview" aria-labelledby="feedback-preview-title">
+  <div class="section-header">
+    <div>
+      <p class="eyebrow">Customer Feedback</p>
+      <h2 id="feedback-preview-title">Recent Reviews</h2>
+    </div>
+    <a routerLink="/feedback" class="section-link">Read More</a>
+  </div>
 
-	<div class="split-card">
-		<div class="section-header compact">
-			<h2>Customer Feedback</h2>
-			<a routerLink="/feedback" class="section-link">Read More</a>
-		</div>
-		<div class="mini-list">
-			@for (item of feedbackPreview(); track item.name) {
-				<article class="mini-item">
-					<h3>{{ item.name }}</h3>
-					<p>{{ item.message }}</p>
-				</article>
-			}
-		</div>
-	</div>
+  <div class="review-grid">
+    @for (item of feedbackPreview(); track item.id) {
+      <article class="review-card">
+        <p class="rating">{{ item.rating }}/5</p>
+        <p class="review-message">{{ item.message }}</p>
+        <h3>{{ item.customerName }}</h3>
+      </article>
+    }
+  </div>
 </section>
