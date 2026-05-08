@@ -102,7 +102,7 @@ export class Product {
       name: this.toText(row['name']) ?? 'Unnamed Jewelry',
       category: this.toText(row['category']) ?? 'Jewelry',
       description: this.toText(row['description']) ?? '',
-      price: this.toText(row['price']) ?? '',
+      price: this.toPriceText(row['price']),
       imageUrl: primaryImage,
       images: images.length > 0 ? images : primaryImage ? [primaryImage] : [],
       availability: this.toAvailabilityText(row)
@@ -133,6 +133,14 @@ export class Product {
     return value
       .map((item) => this.toText(item))
       .filter((item): item is string => item !== null);
+  }
+
+  private toPriceText(value: unknown): string {
+    if (typeof value === 'number') {
+      return `LKR ${new Intl.NumberFormat('en-LK').format(value)}`;
+    }
+
+    return this.toText(value) ?? '';
   }
 
   private toAvailabilityText(row: Record<string, unknown>): string {

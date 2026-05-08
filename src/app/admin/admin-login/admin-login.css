@@ -3,14 +3,17 @@
   display: grid;
   place-items: center;
   padding: 24px 16px;
-  background: linear-gradient(180deg, #f8f2e4, #f4ebd8);
+  background:
+    linear-gradient(90deg, rgba(12, 12, 12, 0.7), rgba(12, 12, 12, 0.34)),
+    url('https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&w=1800&q=82')
+      center / cover;
 }
 
 .admin-login-card {
   width: min(460px, 100%);
   background: #ffffff;
   border: 1px solid rgba(198, 159, 84, 0.35);
-  border-radius: 16px;
+  border-radius: 8px;
   box-shadow: 0 18px 40px rgba(18, 18, 18, 0.08);
   padding: 24px;
 }
@@ -39,7 +42,7 @@ label {
 
 input {
   border: 1px solid rgba(92, 70, 29, 0.3);
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 11px 12px;
   font-size: 0.95rem;
   outline: none;
@@ -60,12 +63,18 @@ input:focus {
 button {
   margin-top: 6px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 12px 14px;
-  background: #c69f54;
-  color: #121212;
+  background: #171717;
+  color: #fff8ea;
   font-weight: 700;
   cursor: pointer;
+}
+
+button:hover,
+button:focus-visible {
+  background: #7b5420;
+  outline: none;
 }
 
 button:disabled {

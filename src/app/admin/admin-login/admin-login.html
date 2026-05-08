@@ -1,19 +1,19 @@
 <section class="admin-login-page" aria-labelledby="admin-login-title">
   <div class="admin-login-card">
     <h1 id="admin-login-title">Admin Login</h1>
-    <p class="subtext">Use your username and password to continue.</p>
+    <p class="subtext">Use your username or email and password to continue.</p>
 
     <form [formGroup]="loginForm" (ngSubmit)="submitLogin()" novalidate>
-      <label for="username">Username</label>
+      <label for="username">Username or email</label>
       <input
         id="username"
         type="text"
         formControlName="username"
         autocomplete="username"
-        placeholder="Enter username"
+        placeholder="Enter username or email"
       />
       @if (loginForm.controls.username.touched && loginForm.controls.username.invalid) {
-        <p class="field-error">Username is required.</p>
+        <p class="field-error">Username or email is required.</p>
       }
 
       <label for="password">Password</label>

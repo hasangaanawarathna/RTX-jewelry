@@ -1,2 +1,111 @@
-<h1>Admin Dashboard</h1>
-<p>Admin management area.</p>
+<section class="dashboard-page" aria-labelledby="dashboard-title">
+  <div class="dashboard-header">
+    <div>
+      <p class="eyebrow">Admin Dashboard</p>
+      <h1 id="dashboard-title">RTX Jewelry Management</h1>
+      <p>Review products, offers, feedback, and recent customer inquiries from one workspace.</p>
+    </div>
+    @if (isLoading()) {
+      <p class="loading-pill">Syncing API data...</p>
+    }
+  </div>
+
+  <div class="stats-grid" aria-label="Dashboard totals">
+    <article>
+      <span>Total products</span>
+      <strong>{{ totalProducts() }}</strong>
+    </article>
+    <article>
+      <span>Total offers</span>
+      <strong>{{ totalOffers() }}</strong>
+    </article>
+    <article>
+      <span>Total feedback</span>
+      <strong>{{ totalFeedback() }}</strong>
+    </article>
+    <article>
+      <span>Recent inquiries</span>
+      <strong>{{ recentInquiries().length }}</strong>
+    </article>
+  </div>
+
+  <nav class="management-nav" aria-label="Admin management navigation">
+    <a href="#product-management">Product Management</a>
+    <a href="#offer-management">Offer Management</a>
+    <a href="#feedback-management">Feedback Management</a>
+    <a href="#inquiry-management">Inquiry Management</a>
+  </nav>
+
+  <section class="dashboard-grid" aria-label="Management panels">
+    <article id="product-management" class="management-panel">
+      <div class="panel-header">
+        <p class="eyebrow">Products</p>
+        <h2>Product Management</h2>
+      </div>
+      <div class="compact-list">
+        @for (product of products().slice(0, 4); track product.id) {
+          <div>
+            <span>{{ product.category }}</span>
+            <strong>{{ product.name }}</strong>
+            <p>{{ product.price }}</p>
+          </div>
+        }
+      </div>
+    </article>
+
+    <article id="offer-management" class="management-panel">
+      <div class="panel-header">
+        <p class="eyebrow">Offers</p>
+        <h2>Offer Management</h2>
+      </div>
+      <div class="compact-list">
+        @for (offer of offers(); track offer.id) {
+          <div>
+            <span>{{ offer.code }}</span>
+            <strong>{{ offer.title }}</strong>
+            <p>{{ offer.discount }} until {{ offer.validUntil }}</p>
+          </div>
+        }
+      </div>
+    </article>
+
+    <article id="feedback-management" class="management-panel">
+      <div class="panel-header">
+        <p class="eyebrow">Feedback</p>
+        <h2>Feedback Management</h2>
+      </div>
+      <div class="compact-list">
+        @for (feedback of feedbackItems().slice(0, 4); track feedback.id) {
+          <div>
+            <span>{{ feedback.rating }}/5</span>
+            <strong>{{ feedback.customerName }}</strong>
+            <p>{{ feedback.message }}</p>
+          </div>
+        }
+      </div>
+    </article>
+
+    <article id="inquiry-management" class="management-panel wide">
+      <div class="panel-header">
+        <p class="eyebrow">Inquiries</p>
+        <h2>Inquiry Management</h2>
+      </div>
+      <div class="inquiry-table" role="table" aria-label="Recent inquiries">
+        <div class="table-row table-head" role="row">
+          <span role="columnheader">Customer</span>
+          <span role="columnheader">Product</span>
+          <span role="columnheader">Contact</span>
+          <span role="columnheader">Status</span>
+        </div>
+        @for (inquiry of recentInquiries(); track inquiry.id) {
+          <div class="table-row" role="row">
+            <span role="cell">{{ inquiry.customerName }}</span>
+            <span role="cell">{{ inquiry.productName }}</span>
+            <span role="cell">{{ inquiry.phone }}</span>
+            <span role="cell" class="status">{{ inquiry.status }}</span>
+          </div>
+        }
+      </div>
+    </article>
+  </section>
+</section>
