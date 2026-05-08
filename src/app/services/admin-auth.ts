@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
+import { Observable, catchError, map, of, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface AdminLoginPayload {
   username: string;
@@ -18,15 +19,36 @@ export interface AdminLoginResult {
 })
 export class AdminAuth {
   private readonly http = inject(HttpClient);
-  private readonly loginUrl = '/api/admin/login';
+  private readonly loginUrl = `${environment.apiBaseUrl}/admin/login`;
+  private readonly tokenKey = 'admin_token';
   private readonly demoUsername = 'admin';
   private readonly demoPassword = 'admin123';
+
+  readonly token = signal<string | null>(this.readStoredToken());
 
   login(payload: AdminLoginPayload): Observable<AdminLoginResult> {
     return this.http.post<unknown>(this.loginUrl, payload).pipe(
       map((response) => this.normalizeLoginResponse(response)),
-      catchError(() => of(this.validateDemoLogin(payload)))
+      catchError(() => of(this.validateDemoLogin(payload))),
+      tap((result) => {
+        if (result.success && result.token) {
+          this.storeToken(result.token);
+        }
+      })
     );
+  }
+
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
+    this.token.set(null);
+  }
+
+  isAuthenticated(): boolean {
+    return this.token() !== null;
+  }
+
+  getToken(): string | null {
+    return this.token();
   }
 
   private validateDemoLogin(payload: AdminLoginPayload): AdminLoginResult {
@@ -70,5 +92,15 @@ export class AdminAuth {
     }
 
     return null;
+  }
+
+  private readStoredToken(): string | null {
+    const token = localStorage.getItem(this.tokenKey);
+    return token && token.trim().length > 0 ? token : null;
+  }
+
+  private storeToken(token: string): void {
+    localStorage.setItem(this.tokenKey, token);
+    this.token.set(token);
   }
 }

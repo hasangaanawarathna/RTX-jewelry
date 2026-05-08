@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface InquiryPayload {
   customerName: string;
@@ -28,7 +29,7 @@ interface InquiryApiResponse {
 })
 export class Contact {
   private readonly http = inject(HttpClient);
-  private readonly baseApiUrl = '/api/inquiries';
+  private readonly baseApiUrl = `${environment.apiBaseUrl}/inquiries`;
 
   sendInquiry(payload: InquiryPayload): Observable<InquiryItem> {
     return this.http.post<unknown>(this.baseApiUrl, payload).pipe(
@@ -40,6 +41,19 @@ export class Contact {
     return this.http.get<unknown>(this.baseApiUrl).pipe(
       map((response) => this.normalizeInquiriesResponse(response))
     );
+  }
+
+  updateInquiryStatus(id: string, status: string): Observable<InquiryItem> {
+    return this.http
+      .patch<unknown>(`${this.baseApiUrl}/${encodeURIComponent(id)}/status`, { status })
+      .pipe(map((response) => this.normalizeInquiryItemResponse(response, {
+        customerName: 'Customer',
+        phone: '',
+        email: '',
+        message: '',
+        productId: '',
+        productName: 'General inquiry',
+      })));
   }
 
   private normalizeInquiriesResponse(response: unknown): InquiryItem[] {

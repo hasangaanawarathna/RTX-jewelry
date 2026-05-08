@@ -75,7 +75,8 @@
   padding: 0;
 }
 
-.nav-links a {
+.nav-links a,
+.logout-button {
   color: #f8ecd2;
   text-decoration: none;
   font-size: 0.92rem;
@@ -85,7 +86,9 @@
 }
 
 .nav-links a:hover,
-.nav-links a:focus-visible {
+.nav-links a:focus-visible,
+.logout-button:hover,
+.logout-button:focus-visible {
   background: rgba(198, 159, 84, 0.15);
   color: #ffd98d;
   outline: none;
@@ -105,6 +108,11 @@
 .nav-links .admin-login-link:hover,
 .nav-links .admin-login-link:focus-visible {
   background: rgba(198, 159, 84, 0.25);
+}
+
+.logout-button {
+  cursor: pointer;
+  font: inherit;
 }
 
 @media (max-width: 900px) {
@@ -131,5 +139,11 @@
 
   .nav-links a {
     display: block;
+  }
+
+  .logout-button {
+    display: block;
+    width: 100%;
+    text-align: left;
   }
 }

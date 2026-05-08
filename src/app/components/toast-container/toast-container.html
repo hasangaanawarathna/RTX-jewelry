@@ -1,0 +1,10 @@
+<div class="toast-stack" aria-live="polite" aria-atomic="true">
+  @for (message of toast.messages(); track message.id) {
+    <article class="toast" [class]="message.type">
+      <p>{{ message.text }}</p>
+      <button type="button" aria-label="Dismiss notification" (click)="toast.dismiss(message.id)">
+        &times;
+      </button>
+    </article>
+  }
+</div>

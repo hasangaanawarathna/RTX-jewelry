@@ -1,0 +1,69 @@
+<section class="admin-page" aria-labelledby="products-title">
+  <div class="admin-header">
+    <div>
+      <p class="eyebrow">Product Management</p>
+      <h1 id="products-title">Products</h1>
+      <p>Add, edit, remove, and review product details before they are published to customers.</p>
+    </div>
+    <a routerLink="/admin/products/new" class="primary-action">Add Product</a>
+  </div>
+
+  @if (errorMessage()) {
+    <p class="alert">{{ errorMessage() }}</p>
+  }
+
+  @if (isLoading()) {
+    <div class="skeleton-grid" aria-label="Loading products">
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+    </div>
+  } @else if (products().length === 0) {
+    <div class="empty-state">
+      <h2>No Products Yet</h2>
+      <p>Create your first jewelry product to start building the shop collection.</p>
+      <a routerLink="/admin/products/new" class="primary-action">Add Product</a>
+    </div>
+  } @else {
+    <div class="product-table" role="table" aria-label="Admin product list">
+      <div class="table-row table-head" role="row">
+        <span role="columnheader">Product</span>
+        <span role="columnheader">Category</span>
+        <span role="columnheader">Price</span>
+        <span role="columnheader">Availability</span>
+        <span role="columnheader">Actions</span>
+      </div>
+
+      @for (product of products(); track product.id) {
+        <article class="table-row" role="row">
+          <span class="product-cell" role="cell">
+            <span class="thumb">
+              @if (product.imageUrl) {
+                <img [src]="product.imageUrl" [alt]="product.name" />
+              } @else {
+                <span>No image</span>
+              }
+            </span>
+            <strong>{{ product.name }}</strong>
+          </span>
+          <span role="cell">{{ product.category }}</span>
+          <span role="cell">{{ product.price }}</span>
+          <span role="cell">
+            <span class="status-pill">{{ product.availability }}</span>
+          </span>
+          <span class="actions" role="cell">
+            <a [routerLink]="['/admin/products', product.id, 'edit']">Edit</a>
+            <button
+              type="button"
+              class="danger"
+              [disabled]="deletingId() === product.id"
+              (click)="deleteProduct(product)"
+            >
+              {{ deletingId() === product.id ? 'Deleting...' : 'Delete' }}
+            </button>
+          </span>
+        </article>
+      }
+    </div>
+  }
+</section>

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface OfferItem {
   id: string;
@@ -12,9 +13,20 @@ export interface OfferItem {
   validUntil: string;
 }
 
+export interface OfferPayload {
+  title: string;
+  description: string;
+  discount: string;
+  code: string;
+  validFrom: string;
+  validUntil: string;
+}
+
 interface OffersApiResponse {
   items?: unknown;
   data?: unknown;
+  offer?: unknown;
+  item?: unknown;
 }
 
 @Injectable({
@@ -22,11 +34,35 @@ interface OffersApiResponse {
 })
 export class Offer {
   private readonly http = inject(HttpClient);
-  private readonly baseApiUrl = '/api/offers';
+  private readonly baseApiUrl = `${environment.apiBaseUrl}/offers`;
 
   getOffers(): Observable<OfferItem[]> {
     return this.http.get<unknown>(this.baseApiUrl).pipe(
       map((response) => this.normalizeOffersResponse(response))
+    );
+  }
+
+  getOfferById(id: string): Observable<OfferItem | null> {
+    return this.http.get<unknown>(`${this.baseApiUrl}/${encodeURIComponent(id)}`).pipe(
+      map((response) => this.normalizeOfferResponse(response))
+    );
+  }
+
+  createOffer(payload: OfferPayload): Observable<OfferItem> {
+    return this.http.post<unknown>(this.baseApiUrl, payload).pipe(
+      map((response) => this.normalizeOfferResponse(response) ?? this.toOfferItem(payload))
+    );
+  }
+
+  updateOffer(id: string, payload: OfferPayload): Observable<OfferItem> {
+    return this.http.put<unknown>(`${this.baseApiUrl}/${encodeURIComponent(id)}`, payload).pipe(
+      map((response) => this.normalizeOfferResponse(response) ?? this.toOfferItem({ ...payload, id }))
+    );
+  }
+
+  deleteOffer(id: string): Observable<void> {
+    return this.http.delete<unknown>(`${this.baseApiUrl}/${encodeURIComponent(id)}`).pipe(
+      map(() => undefined)
     );
   }
 
@@ -48,6 +84,28 @@ export class Offer {
     }
 
     return [];
+  }
+
+  private normalizeOfferResponse(response: unknown): OfferItem | null {
+    if (this.isObject(response)) {
+      const typedResponse = response as OffersApiResponse;
+
+      if (this.isObject(typedResponse.offer)) {
+        return this.toOfferItem(typedResponse.offer);
+      }
+
+      if (this.isObject(typedResponse.item)) {
+        return this.toOfferItem(typedResponse.item);
+      }
+
+      if (this.isObject(typedResponse.data)) {
+        return this.toOfferItem(typedResponse.data);
+      }
+
+      return this.toOfferItem(response);
+    }
+
+    return null;
   }
 
   private toOfferItem(item: unknown): OfferItem {

@@ -1,9 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface ProductItem {
   id: string;
+  name: string;
+  category: string;
+  description: string;
+  price: string;
+  imageUrl: string | null;
+  images: string[];
+  availability: string;
+}
+
+export interface ProductPayload {
   name: string;
   category: string;
   description: string;
@@ -25,7 +36,7 @@ interface ProductsApiResponse {
 })
 export class Product {
   private readonly http = inject(HttpClient);
-  private readonly baseApiUrl = '/api/products';
+  private readonly baseApiUrl = `${environment.apiBaseUrl}/products`;
 
   getProducts(): Observable<ProductItem[]> {
     return this.http.get<unknown>(this.baseApiUrl).pipe(
@@ -42,6 +53,24 @@ export class Product {
   getProductById(id: string): Observable<ProductItem | null> {
     return this.http.get<unknown>(`${this.baseApiUrl}/${encodeURIComponent(id)}`).pipe(
       map((response) => this.normalizeProductResponse(response))
+    );
+  }
+
+  createProduct(payload: ProductPayload): Observable<ProductItem> {
+    return this.http.post<unknown>(this.baseApiUrl, payload).pipe(
+      map((response) => this.normalizeProductResponse(response) ?? this.toProductItem(payload))
+    );
+  }
+
+  updateProduct(id: string, payload: ProductPayload): Observable<ProductItem> {
+    return this.http.put<unknown>(`${this.baseApiUrl}/${encodeURIComponent(id)}`, payload).pipe(
+      map((response) => this.normalizeProductResponse(response) ?? this.toProductItem({ ...payload, id }))
+    );
+  }
+
+  deleteProduct(id: string): Observable<void> {
+    return this.http.delete<unknown>(`${this.baseApiUrl}/${encodeURIComponent(id)}`).pipe(
+      map(() => undefined)
     );
   }
 

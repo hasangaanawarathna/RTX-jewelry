@@ -23,17 +23,24 @@
       <li><a routerLink="/offers" routerLinkActive="active" (click)="closeMenu()">Offers</a></li>
       <li><a routerLink="/feedback" routerLinkActive="active" (click)="closeMenu()">Feedback</a></li>
       <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">Contact</a></li>
-      <li>
-        <a
-          routerLink="/admin/login"
-          routerLinkActive="active"
-          class="admin-login-link"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="closeMenu()"
-        >
-          Admin Login
-        </a>
-      </li>
+      @if (auth.token()) {
+        <li><a routerLink="/admin/dashboard" routerLinkActive="active" (click)="closeMenu()">Dashboard</a></li>
+        <li>
+          <button type="button" class="admin-login-link logout-button" (click)="logout()">Logout</button>
+        </li>
+      } @else {
+        <li>
+          <a
+            routerLink="/admin/login"
+            routerLinkActive="active"
+            class="admin-login-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="closeMenu()"
+          >
+            Admin Login
+          </a>
+        </li>
+      }
     </ul>
   </nav>
 </header>

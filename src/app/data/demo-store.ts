@@ -135,6 +135,7 @@ export const DEMO_FEEDBACK: FeedbackItem[] = [
     message: 'Excellent craftsmanship and very professional service. The necklace looked beautiful.',
     rating: 5,
     createdAt: 'May 6, 2026',
+    status: 'Approved',
   },
   {
     id: 'feedback-ishan',
@@ -142,6 +143,7 @@ export const DEMO_FEEDBACK: FeedbackItem[] = [
     message: 'The design consultation was smooth and personal. I found the perfect gift.',
     rating: 5,
     createdAt: 'May 3, 2026',
+    status: 'Approved',
   },
   {
     id: 'feedback-amaya',
@@ -149,6 +151,7 @@ export const DEMO_FEEDBACK: FeedbackItem[] = [
     message: 'Beautiful finishing, careful packaging, and quick support from the shop team.',
     rating: 4,
     createdAt: 'April 28, 2026',
+    status: 'Pending',
   },
 ];
 

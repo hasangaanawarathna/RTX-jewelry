@@ -58,6 +58,7 @@ export class Feedback {
             id: `local-feedback-${Date.now()}`,
             ...payload,
             createdAt: 'Just now',
+            status: 'Pending',
           },
           ...items,
         ]);

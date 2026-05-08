@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import { environment } from '../../environments/environment';
+
+export type FeedbackStatus = 'Pending' | 'Approved' | 'Rejected';
 
 export interface FeedbackItem {
   id: string;
@@ -8,6 +11,7 @@ export interface FeedbackItem {
   message: string;
   rating: number;
   createdAt: string;
+  status: FeedbackStatus;
 }
 
 export interface FeedbackPayload {
@@ -27,7 +31,7 @@ interface FeedbackApiResponse {
 })
 export class Feedback {
   private readonly http = inject(HttpClient);
-  private readonly baseApiUrl = '/api/feedback';
+  private readonly baseApiUrl = `${environment.apiBaseUrl}/feedback`;
 
   getFeedback(): Observable<FeedbackItem[]> {
     return this.http.get<unknown>(this.baseApiUrl).pipe(
@@ -38,6 +42,22 @@ export class Feedback {
   addFeedback(payload: FeedbackPayload): Observable<FeedbackItem> {
     return this.http.post<unknown>(this.baseApiUrl, payload).pipe(
       map((response) => this.normalizeFeedbackItemResponse(response, payload))
+    );
+  }
+
+  updateFeedbackStatus(id: string, status: FeedbackStatus): Observable<FeedbackItem> {
+    return this.http
+      .patch<unknown>(`${this.baseApiUrl}/${encodeURIComponent(id)}/status`, { status })
+      .pipe(map((response) => this.normalizeFeedbackItemResponse(response, {
+        customerName: 'Customer',
+        message: '',
+        rating: 5,
+      })));
+  }
+
+  deleteFeedback(id: string): Observable<void> {
+    return this.http.delete<unknown>(`${this.baseApiUrl}/${encodeURIComponent(id)}`).pipe(
+      map(() => undefined)
     );
   }
 
@@ -82,6 +102,7 @@ export class Feedback {
       message: fallback.message,
       rating: fallback.rating,
       createdAt: 'Just now',
+      status: 'Pending',
     };
   }
 
@@ -96,6 +117,7 @@ export class Feedback {
       message: this.toText(row['message']) ?? this.toText(row['feedback']) ?? '',
       rating: this.toRating(row['rating']),
       createdAt: this.toText(row['createdAt']) ?? this.toText(row['date']) ?? 'Recently',
+      status: this.toStatus(row['status']),
     };
   }
 
@@ -123,6 +145,20 @@ export class Feedback {
     }
 
     return Math.min(5, Math.max(1, Math.round(rating)));
+  }
+
+  private toStatus(value: unknown): FeedbackStatus {
+    const status = this.toText(value)?.toLowerCase();
+
+    if (status === 'pending') {
+      return 'Pending';
+    }
+
+    if (status === 'rejected') {
+      return 'Rejected';
+    }
+
+    return 'Approved';
   }
 
   private slugify(value: string): string {

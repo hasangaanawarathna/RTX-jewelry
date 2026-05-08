@@ -1,0 +1,109 @@
+<section class="form-page" aria-labelledby="product-form-title">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a routerLink="/admin/products">Products</a>
+    <span>/</span>
+    <span>{{ isEditMode() ? 'Edit Product' : 'Add Product' }}</span>
+  </nav>
+
+  <div class="form-header">
+    <p class="eyebrow">Product Management</p>
+    <h1 id="product-form-title">{{ isEditMode() ? 'Edit Product' : 'Add Product' }}</h1>
+  </div>
+
+  @if (errorMessage()) {
+    <p class="alert">{{ errorMessage() }}</p>
+  }
+
+  @if (isLoading()) {
+    <div class="skeleton-panel"></div>
+  } @else {
+    <div class="form-layout">
+      <form [formGroup]="productForm" (ngSubmit)="submitProduct()" novalidate>
+        <div class="form-row">
+          <label for="name">Product name</label>
+          <input id="name" type="text" formControlName="name" />
+          @if (productForm.controls.name.touched && productForm.controls.name.invalid) {
+            <p class="field-error">Product name is required.</p>
+          }
+        </div>
+
+        <div class="form-grid">
+          <div class="form-row">
+            <label for="category">Category</label>
+            <input id="category" type="text" formControlName="category" placeholder="Rings, Necklaces..." />
+            @if (productForm.controls.category.touched && productForm.controls.category.invalid) {
+              <p class="field-error">Category is required.</p>
+            }
+          </div>
+
+          <div class="form-row">
+            <label for="price">Price</label>
+            <input id="price" type="text" formControlName="price" placeholder="LKR 98,000" />
+            @if (productForm.controls.price.touched && productForm.controls.price.invalid) {
+              <p class="field-error">Price is required.</p>
+            }
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="description">Description</label>
+          <textarea id="description" rows="5" formControlName="description"></textarea>
+          @if (productForm.controls.description.touched && productForm.controls.description.hasError('required')) {
+            <p class="field-error">Description is required.</p>
+          }
+          @if (productForm.controls.description.touched && productForm.controls.description.hasError('minlength')) {
+            <p class="field-error">Description must be at least 10 characters.</p>
+          }
+        </div>
+
+        <div class="form-row">
+          <label for="imageUrl">Primary image URL</label>
+          <input id="imageUrl" type="url" formControlName="imageUrl" placeholder="https://..." />
+          @if (productForm.controls.imageUrl.touched && productForm.controls.imageUrl.invalid) {
+            <p class="field-error">Enter a valid image URL starting with http or https.</p>
+          }
+        </div>
+
+        <div class="form-row">
+          <label for="imagesText">Gallery image URLs</label>
+          <textarea id="imagesText" rows="4" formControlName="imagesText" placeholder="One URL per line"></textarea>
+        </div>
+
+        <div class="form-row">
+          <label for="availability">Availability</label>
+          <select id="availability" formControlName="availability">
+            <option value="In stock">In stock</option>
+            <option value="Limited stock">Limited stock</option>
+            <option value="Available for inquiry">Available for inquiry</option>
+            <option value="Made to order">Made to order</option>
+            <option value="Out of stock">Out of stock</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" [disabled]="isSaving()">
+            {{ isSaving() ? 'Saving...' : isEditMode() ? 'Update Product' : 'Add Product' }}
+          </button>
+          <a routerLink="/admin/products">Cancel</a>
+        </div>
+      </form>
+
+      <aside class="preview-panel" aria-labelledby="preview-title">
+        <p class="eyebrow">Preview</p>
+        <h2 id="preview-title">Image Preview</h2>
+        @if (previewImages().length > 0) {
+          <div class="main-preview">
+            <img [src]="previewImages()[0]" alt="Product preview" />
+          </div>
+          <div class="preview-grid">
+            @for (image of previewImages().slice(0, 4); track image) {
+              <img [src]="image" alt="Gallery preview" />
+            }
+          </div>
+        } @else {
+          <div class="empty-preview">Image preview appears here.</div>
+        }
+      </aside>
+    </div>
+  }
+</section>
