@@ -1,8 +1,12 @@
-<div class="app-shell">
-	<app-navbar></app-navbar>
-	<main class="content-area">
+<div class="app-shell" [class.admin-shell-active]="isAdminRoute()">
+	@if (!isAdminRoute()) {
+		<app-navbar></app-navbar>
+	}
+	<main class="content-area" [class.admin-content-area]="isAdminRoute()">
 		<router-outlet></router-outlet>
 	</main>
-	<app-footer></app-footer>
+	@if (!isAdminRoute()) {
+		<app-footer></app-footer>
+	}
 	<app-toast-container></app-toast-container>
 </div>
