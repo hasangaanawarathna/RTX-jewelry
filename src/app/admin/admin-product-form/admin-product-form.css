@@ -105,6 +105,11 @@ textarea {
   outline: none;
 }
 
+input[type='file'] {
+  background: #fffaf0;
+  cursor: pointer;
+}
+
 textarea {
   resize: vertical;
 }
@@ -120,6 +125,13 @@ textarea:focus {
   margin: 0;
   color: #b42318;
   font-size: 0.88rem;
+}
+
+.file-name {
+  margin: 0;
+  color: #7b5420;
+  font-size: 0.88rem;
+  font-weight: 800;
 }
 
 .alert {
@@ -206,6 +218,25 @@ textarea:focus {
 .preview-grid img {
   aspect-ratio: 1 / 1;
   border-radius: 8px;
+}
+
+.clear-image {
+  margin-top: 12px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(180, 35, 24, 0.1);
+  color: #8f1f16;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  padding: 10px 12px;
+}
+
+.clear-image:hover,
+.clear-image:focus-visible {
+  background: #8f1f16;
+  color: #fff8ea;
+  outline: none;
 }
 
 .skeleton-panel {

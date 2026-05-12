@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { AdminPreviewStore } from '../admin-preview-store';
@@ -24,6 +24,33 @@ export class AdminProducts {
   readonly isLoading = signal(true);
   readonly deletingId = signal<string | null>(null);
   readonly errorMessage = signal<string | null>(null);
+  readonly searchQuery = signal('');
+  readonly categoryFilter = signal('All');
+
+  readonly categories = computed(() =>
+    Array.from(new Set(this.products().map((product) => product.category).filter(Boolean))).sort()
+  );
+  readonly filteredProducts = computed(() => {
+    const query = this.searchQuery().trim().toLowerCase();
+    const category = this.categoryFilter();
+
+    return this.products().filter((product) => {
+      const searchableText = [
+        product.name,
+        product.category,
+        product.price,
+        product.weight,
+        product.material,
+        product.availability,
+      ]
+        .join(' ')
+        .toLowerCase();
+      const matchesSearch = query.length === 0 || searchableText.includes(query);
+      const matchesCategory = category === 'All' || product.category === category;
+
+      return matchesSearch && matchesCategory;
+    });
+  });
 
   constructor() {
     this.loadProducts();
@@ -47,6 +74,21 @@ export class AdminProducts {
         this.previewStore.saveProducts(items);
         this.isLoading.set(false);
       });
+  }
+
+  updateSearchQuery(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.searchQuery.set(input.value);
+  }
+
+  updateCategoryFilter(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    this.categoryFilter.set(select.value);
+  }
+
+  clearFilters(): void {
+    this.searchQuery.set('');
+    this.categoryFilter.set('All');
   }
 
   deleteProduct(product: ProductItem): void {
