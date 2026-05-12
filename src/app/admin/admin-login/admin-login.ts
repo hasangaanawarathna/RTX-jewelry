@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AdminAuth } from '../../services/admin-auth';
+import { AuthService } from '../../services/auth.service';
 import { Toast } from '../../services/toast';
 
 @Component({
@@ -13,7 +13,7 @@ import { Toast } from '../../services/toast';
 })
 export class AdminLogin {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly adminAuth = inject(AdminAuth);
+  private readonly adminAuth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly toast = inject(Toast);
