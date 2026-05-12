@@ -20,7 +20,7 @@ function authorizeAdminRoute(url: string): boolean | UrlTree {
 
   return router.createUrlTree(['/admin/login'], {
     queryParams: {
-      returnUrl: state.url,
+      returnUrl: url,
     },
   });
 }
