@@ -9,6 +9,14 @@
 	background: #f9f4e8;
 }
 
+.app-shell.admin-shell-active {
+	background: #f5f1e9;
+}
+
 .content-area {
 	flex: 1;
+}
+
+.content-area.admin-content-area {
+	min-height: 100vh;
 }
