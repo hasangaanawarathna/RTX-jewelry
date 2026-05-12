@@ -45,6 +45,24 @@
           </div>
         </div>
 
+        <div class="form-grid">
+          <div class="form-row">
+            <label for="weight">Weight</label>
+            <input id="weight" type="text" formControlName="weight" placeholder="12.5 g" />
+            @if (productForm.controls.weight.touched && productForm.controls.weight.invalid) {
+              <p class="field-error">Weight is required.</p>
+            }
+          </div>
+
+          <div class="form-row">
+            <label for="material">Material</label>
+            <input id="material" type="text" formControlName="material" placeholder="22K Gold, Diamond..." />
+            @if (productForm.controls.material.touched && productForm.controls.material.invalid) {
+              <p class="field-error">Material is required.</p>
+            }
+          </div>
+        </div>
+
         <div class="form-row">
           <label for="description">Description</label>
           <textarea id="description" rows="5" formControlName="description"></textarea>
@@ -57,16 +75,11 @@
         </div>
 
         <div class="form-row">
-          <label for="imageUrl">Primary image URL</label>
-          <input id="imageUrl" type="url" formControlName="imageUrl" placeholder="https://..." />
-          @if (productForm.controls.imageUrl.touched && productForm.controls.imageUrl.invalid) {
-            <p class="field-error">Enter a valid image URL starting with http or https.</p>
+          <label for="productImage">Product image</label>
+          <input id="productImage" type="file" accept="image/*" (change)="onImageSelected($event)" />
+          @if (selectedImageName()) {
+            <p class="file-name">{{ selectedImageName() }}</p>
           }
-        </div>
-
-        <div class="form-row">
-          <label for="imagesText">Gallery image URLs</label>
-          <textarea id="imagesText" rows="4" formControlName="imagesText" placeholder="One URL per line"></textarea>
         </div>
 
         <div class="form-row">
@@ -91,17 +104,13 @@
       <aside class="preview-panel" aria-labelledby="preview-title">
         <p class="eyebrow">Preview</p>
         <h2 id="preview-title">Image Preview</h2>
-        @if (previewImages().length > 0) {
+        @if (imagePreview(); as previewUrl) {
           <div class="main-preview">
-            <img [src]="previewImages()[0]" alt="Product preview" />
+            <img [src]="previewUrl" alt="Product preview" />
           </div>
-          <div class="preview-grid">
-            @for (image of previewImages().slice(0, 4); track image) {
-              <img [src]="image" alt="Gallery preview" />
-            }
-          </div>
+          <button type="button" class="clear-image" (click)="clearImage()">Remove Image</button>
         } @else {
-          <div class="empty-preview">Image preview appears here.</div>
+          <div class="empty-preview">Image preview appears here after upload.</div>
         }
       </aside>
     </div>
