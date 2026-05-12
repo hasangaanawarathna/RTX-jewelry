@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { AdminAuth } from '../../services/admin-auth';
+import { AuthService } from '../../services/auth.service';
 import { Toast } from '../../services/toast';
 
 @Component({
@@ -12,7 +12,7 @@ import { Toast } from '../../services/toast';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Navbar {
-  readonly auth = inject(AdminAuth);
+  readonly auth = inject(AuthService);
 
   private readonly router = inject(Router);
   private readonly toast = inject(Toast);
