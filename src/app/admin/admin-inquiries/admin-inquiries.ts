@@ -20,9 +20,8 @@ export class AdminInquiries {
   private readonly previewStore = inject(AdminPreviewStore);
 
   readonly inquiries = signal<InquiryItem[]>([]);
-  readonly statuses = ['New', 'Pending', 'Contacted', 'Replied', 'Closed'];
   readonly isLoading = signal(true);
-  readonly updatingId = signal<string | null>(null);
+  readonly activeId = signal<string | null>(null);
   readonly errorMessage = signal<string | null>(null);
 
   constructor() {
@@ -49,15 +48,52 @@ export class AdminInquiries {
       });
   }
 
-  updateStatus(inquiry: InquiryItem, event: Event): void {
-    const select = event.target as HTMLSelectElement;
-    const status = select.value;
+  markAsContacted(inquiry: InquiryItem): void {
+    this.updateStatus(inquiry, 'Contacted');
+  }
 
-    if (inquiry.status === status || this.updatingId()) {
+  deleteInquiry(inquiry: InquiryItem): void {
+    const confirmed = window.confirm(`Delete inquiry from ${inquiry.customerName}?`);
+
+    if (!confirmed || this.activeId()) {
       return;
     }
 
-    this.updatingId.set(inquiry.id);
+    this.activeId.set(inquiry.id);
+    this.errorMessage.set(null);
+
+    this.contactService.deleteInquiry(inquiry.id).subscribe({
+      next: () => {
+        this.inquiries.update((items) => items.filter((item) => item.id !== inquiry.id));
+        this.previewStore.removeInquiry(inquiry.id);
+        this.activeId.set(null);
+        this.toast.success('Inquiry deleted successfully.');
+      },
+      error: (error: unknown) => {
+        if (error instanceof HttpErrorResponse && error.status === 0) {
+          const nextItems = this.previewStore.removeInquiry(inquiry.id);
+          this.inquiries.set(nextItems);
+          this.toast.info('Backend unavailable. Inquiry removed from the frontend preview.');
+        } else {
+          this.errorMessage.set(getApiErrorMessage(error, 'Inquiry could not be deleted.'));
+          this.toast.error(this.errorMessage() ?? 'Inquiry could not be deleted.');
+        }
+
+        this.activeId.set(null);
+      },
+    });
+  }
+
+  statusClass(status: string): string {
+    return status.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  }
+
+  private updateStatus(inquiry: InquiryItem, status: string): void {
+    if (inquiry.status === status || this.activeId()) {
+      return;
+    }
+
+    this.activeId.set(inquiry.id);
     this.errorMessage.set(null);
 
     this.contactService.updateInquiryStatus(inquiry.id, status).subscribe({
@@ -66,7 +102,7 @@ export class AdminInquiries {
           items.map((item) => item.id === inquiry.id ? { ...item, ...updatedInquiry, status } : item)
         );
         this.previewStore.updateInquiryStatus(inquiry.id, status);
-        this.updatingId.set(null);
+        this.activeId.set(null);
         this.toast.success('Inquiry status updated.');
       },
       error: (error: unknown) => {
@@ -79,13 +115,8 @@ export class AdminInquiries {
           this.toast.error(this.errorMessage() ?? 'Inquiry status could not be updated.');
         }
 
-        this.updatingId.set(null);
+        this.activeId.set(null);
       },
     });
-  }
-
-  isReplied(status: string): boolean {
-    const normalizedStatus = status.toLowerCase();
-    return normalizedStatus === 'replied' || normalizedStatus === 'closed' || normalizedStatus === 'contacted';
   }
 }

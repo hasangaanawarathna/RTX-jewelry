@@ -12,32 +12,29 @@
 
   <div class="stats-grid" aria-label="Dashboard totals">
     <article>
-      <span>Total products</span>
+      <span>Total Products</span>
       <strong>{{ totalProducts() }}</strong>
     </article>
     <article>
-      <span>Total offers</span>
+      <span>Total Offers</span>
       <strong>{{ totalOffers() }}</strong>
     </article>
     <article>
-      <span>Total feedback</span>
-      <strong>{{ totalFeedback() }}</strong>
-    </article>
-    <article>
-      <span>Recent inquiries</span>
+      <span>Total Customer Inquiries</span>
       <strong>{{ totalInquiries() }}</strong>
     </article>
     <article>
-      <span>Pending feedback</span>
-      <strong>{{ pendingFeedback() }}</strong>
+      <span>Total Feedback</span>
+      <strong>{{ totalFeedback() }}</strong>
     </article>
   </div>
 
-  <nav class="management-nav" aria-label="Admin management navigation">
-    <a routerLink="/admin/products">Product Management</a>
-    <a routerLink="/admin/offers">Offer Management</a>
-    <a routerLink="/admin/feedback">Feedback Management</a>
-    <a routerLink="/admin/inquiries">Inquiry Management</a>
+  <nav class="quick-actions" aria-label="Quick actions">
+    <a routerLink="/admin/products/add">Add Product</a>
+    <a routerLink="/admin/products">Manage Products</a>
+    <a routerLink="/admin/offers">Manage Offers</a>
+    <a routerLink="/admin/inquiries">Customer Inquiries</a>
+    <a routerLink="/admin/settings">Settings</a>
   </nav>
 
   <section class="dashboard-grid" aria-label="Management panels">

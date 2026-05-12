@@ -56,6 +56,12 @@ export class Contact {
       })));
   }
 
+  deleteInquiry(id: string): Observable<void> {
+    return this.http.delete<unknown>(`${this.baseApiUrl}/${encodeURIComponent(id)}`).pipe(
+      map(() => undefined)
+    );
+  }
+
   private normalizeInquiriesResponse(response: unknown): InquiryItem[] {
     if (Array.isArray(response)) {
       return response.map((item) => this.toInquiryItem(item));

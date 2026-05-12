@@ -4,9 +4,9 @@
 }
 
 .admin-page {
-  width: min(1200px, calc(100% - 40px));
+  width: min(1240px, calc(100% - 40px));
   margin: 0 auto;
-  padding: 42px 0 68px;
+  padding: 36px 0 68px;
 }
 
 .admin-header {
@@ -31,9 +31,8 @@ p {
 h1 {
   margin-bottom: 12px;
   color: #171717;
-  font-size: 2.6rem;
+  font-size: 2.35rem;
   line-height: 1.08;
-  text-transform: uppercase;
 }
 
 .admin-header p:last-child {
@@ -51,128 +50,112 @@ h1 {
   padding: 12px 14px;
 }
 
-.inquiry-list,
+.inquiry-table,
 .skeleton-list {
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 
-.inquiry-card,
+.table-row {
+  display: grid;
+  grid-template-columns:
+    minmax(150px, 0.85fr) minmax(170px, 1fr) minmax(120px, 0.75fr)
+    minmax(150px, 0.95fr) minmax(220px, 1.25fr) minmax(110px, 0.7fr) auto;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid rgba(126, 92, 36, 0.18);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(18, 18, 18, 0.05);
+  padding: 12px;
+}
+
+.table-head {
+  background: #17120c;
+  color: #fff8ea;
+  font-weight: 900;
+  box-shadow: none;
+}
+
+.customer-cell strong,
+.customer-cell small {
+  display: block;
+}
+
+.customer-cell strong {
+  color: #171717;
+}
+
+.customer-cell small {
+  margin-top: 5px;
+  color: #7b5420;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.message-cell {
+  color: #4d4232;
+  line-height: 1.45;
+}
+
+.status-pill {
+  display: inline-block;
+  border-radius: 8px;
+  background: rgba(154, 107, 45, 0.14);
+  color: #7b5420;
+  font-size: 0.84rem;
+  font-weight: 900;
+  padding: 7px 9px;
+  white-space: nowrap;
+}
+
+.status-pill.contacted,
+.status-pill.replied,
+.status-pill.closed {
+  background: rgba(31, 116, 87, 0.12);
+  color: #165f48;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.actions button {
+  border: 0;
+  border-radius: 8px;
+  background: rgba(18, 61, 52, 0.1);
+  color: #123d34;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  padding: 9px 10px;
+}
+
+.actions .danger {
+  background: #8f1f16;
+  color: #fff8ea;
+}
+
+.actions button:hover,
+.actions button:focus-visible {
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.54;
+}
+
 .empty-state,
 .skeleton-row {
   border: 1px solid rgba(126, 92, 36, 0.22);
   border-radius: 8px;
   background: #fffdf8;
   box-shadow: 0 12px 28px rgba(18, 18, 18, 0.06);
-}
-
-.inquiry-card {
-  display: grid;
-  gap: 18px;
-  padding: 18px;
-}
-
-.inquiry-main {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
-  gap: 18px;
-}
-
-.card-topline {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.reply-badge,
-.status-pill {
-  border-radius: 8px;
-  font-size: 0.84rem;
-  font-weight: 900;
-  padding: 7px 9px;
-}
-
-.reply-badge.replied {
-  background: rgba(31, 116, 87, 0.12);
-  color: #165f48;
-}
-
-.reply-badge.pending {
-  background: rgba(154, 107, 45, 0.14);
-  color: #7b5420;
-}
-
-.status-pill {
-  background: rgba(18, 61, 52, 0.1);
-  color: #123d34;
-}
-
-h2 {
-  margin-bottom: 6px;
-  color: #171717;
-  font-size: 1.25rem;
-}
-
-.product-name {
-  color: #9a6b2d;
-  font-weight: 900;
-}
-
-.message {
-  color: #4d4232;
-  line-height: 1.65;
-}
-
-.contact-box {
-  display: grid;
-  gap: 10px;
-  align-self: start;
-  border-radius: 8px;
-  background: rgba(18, 61, 52, 0.07);
-  padding: 14px;
-}
-
-.contact-box p {
-  margin: 0;
-  line-height: 1.45;
-}
-
-.contact-box span,
-.status-control span {
-  display: block;
-  color: #6f4a16;
-  font-size: 0.76rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.status-control {
-  display: grid;
-  gap: 7px;
-  max-width: 260px;
-}
-
-select {
-  width: 100%;
-  border: 1px solid rgba(83, 65, 38, 0.28);
-  border-radius: 8px;
-  background: #ffffff;
-  color: #241f1a;
-  font: inherit;
-  padding: 11px 12px;
-  outline: none;
-}
-
-select:focus {
-  border-color: #b4833c;
-  box-shadow: 0 0 0 3px rgba(180, 131, 60, 0.18);
-}
-
-select:disabled {
-  opacity: 0.62;
 }
 
 .empty-state {
@@ -187,7 +170,7 @@ select:disabled {
 }
 
 .skeleton-row {
-  min-height: 150px;
+  min-height: 88px;
   background:
     linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.78), transparent),
     #eee3d1;
@@ -201,22 +184,30 @@ select:disabled {
   }
 }
 
-@media (max-width: 800px) {
-  .inquiry-main {
-    grid-template-columns: 1fr;
+@media (max-width: 1140px) {
+  .table-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .table-head {
+    display: none;
+  }
+
+  .actions {
+    justify-content: flex-start;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .admin-page {
-    width: min(100% - 28px, 1200px);
+    width: min(100% - 28px, 1240px);
   }
 
   h1 {
-    font-size: 2.1rem;
+    font-size: 2rem;
   }
 
-  .status-control {
-    max-width: none;
+  .table-row {
+    grid-template-columns: 1fr;
   }
 }

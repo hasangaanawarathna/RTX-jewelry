@@ -102,6 +102,12 @@ export class AdminPreviewStore {
     return nextItems;
   }
 
+  removeInquiry(id: string): InquiryItem[] {
+    const nextItems = this.getInquiries().filter((item) => item.id !== id);
+    this.saveInquiries(nextItems);
+    return nextItems;
+  }
+
   private read<T>(key: string, fallback: T): T {
     const rawValue = localStorage.getItem(key);
 

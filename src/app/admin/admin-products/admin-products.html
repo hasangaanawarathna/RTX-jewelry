@@ -5,7 +5,7 @@
       <h1 id="products-title">Products</h1>
       <p>Add, edit, remove, and review product details before they are published to customers.</p>
     </div>
-    <a routerLink="/admin/products/new" class="primary-action">Add Product</a>
+    <a routerLink="/admin/products/add" class="primary-action">Add Product</a>
   </div>
 
   @if (errorMessage()) {
@@ -22,19 +22,42 @@
     <div class="empty-state">
       <h2>No Products Yet</h2>
       <p>Create your first jewelry product to start building the shop collection.</p>
-      <a routerLink="/admin/products/new" class="primary-action">Add Product</a>
+      <a routerLink="/admin/products/add" class="primary-action">Add Product</a>
     </div>
   } @else {
+    <div class="filter-bar" aria-label="Product search and filters">
+      <label>
+        <span>Search products</span>
+        <input
+          type="search"
+          [value]="searchQuery()"
+          (input)="updateSearchQuery($event)"
+          placeholder="Search name, material, status..."
+        />
+      </label>
+      <label>
+        <span>Category</span>
+        <select [value]="categoryFilter()" (change)="updateCategoryFilter($event)">
+          <option value="All">All categories</option>
+          @for (category of categories(); track category) {
+            <option [value]="category">{{ category }}</option>
+          }
+        </select>
+      </label>
+      <button type="button" (click)="clearFilters()">Clear</button>
+    </div>
+
     <div class="product-table" role="table" aria-label="Admin product list">
       <div class="table-row table-head" role="row">
         <span role="columnheader">Product</span>
         <span role="columnheader">Category</span>
         <span role="columnheader">Price</span>
-        <span role="columnheader">Availability</span>
+        <span role="columnheader">Weight</span>
+        <span role="columnheader">Status</span>
         <span role="columnheader">Actions</span>
       </div>
 
-      @for (product of products(); track product.id) {
+      @for (product of filteredProducts(); track product.id) {
         <article class="table-row" role="row">
           <span class="product-cell" role="cell">
             <span class="thumb">
@@ -44,10 +67,14 @@
                 <span>No image</span>
               }
             </span>
-            <strong>{{ product.name }}</strong>
+            <span>
+              <strong>{{ product.name }}</strong>
+              <small>{{ product.material }}</small>
+            </span>
           </span>
           <span role="cell">{{ product.category }}</span>
           <span role="cell">{{ product.price }}</span>
+          <span role="cell">{{ product.weight }}</span>
           <span role="cell">
             <span class="status-pill">{{ product.availability }}</span>
           </span>
@@ -63,6 +90,12 @@
             </button>
           </span>
         </article>
+      } @empty {
+        <div class="empty-state">
+          <h2>No Matching Products</h2>
+          <p>Try a different search term or category filter.</p>
+          <button type="button" class="secondary-action" (click)="clearFilters()">Clear Filters</button>
+        </div>
       }
     </div>
   }

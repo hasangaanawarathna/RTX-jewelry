@@ -59,7 +59,7 @@ h1 {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
   margin-bottom: 20px;
 }
@@ -88,14 +88,14 @@ h1 {
   font-size: 2rem;
 }
 
-.management-nav {
+.quick-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 24px;
 }
 
-.management-nav a {
+.quick-actions a {
   border-radius: 8px;
   background: #171717;
   color: #fff8ea;
@@ -105,8 +105,8 @@ h1 {
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.management-nav a:hover,
-.management-nav a:focus-visible {
+.quick-actions a:hover,
+.quick-actions a:focus-visible {
   background: #7b5420;
   transform: translateY(-1px);
   outline: none;

@@ -23,44 +23,47 @@
       <p>Product and contact inquiries will appear here when customers submit the contact form.</p>
     </div>
   } @else {
-    <div class="inquiry-list">
-      @for (inquiry of inquiries(); track inquiry.id) {
-        <article class="inquiry-card">
-          <div class="inquiry-main">
-            <div>
-              <div class="card-topline">
-                <span
-                  class="reply-badge"
-                  [class.replied]="isReplied(inquiry.status)"
-                  [class.pending]="!isReplied(inquiry.status)"
-                >
-                  {{ isReplied(inquiry.status) ? 'Replied' : 'Pending' }}
-                </span>
-                <span class="status-pill">{{ inquiry.status }}</span>
-              </div>
-              <h2>{{ inquiry.customerName }}</h2>
-              <p class="product-name">{{ inquiry.productName }}</p>
-              <p class="message">{{ inquiry.message }}</p>
-            </div>
-            <div class="contact-box">
-              <p><span>Phone</span>{{ inquiry.phone }}</p>
-              <p><span>Email</span>{{ inquiry.email }}</p>
-              <p><span>Received</span>{{ inquiry.createdAt }}</p>
-            </div>
-          </div>
+    <div class="inquiry-table" role="table" aria-label="Customer inquiries">
+      <div class="table-row table-head" role="row">
+        <span role="columnheader">Customer</span>
+        <span role="columnheader">Email</span>
+        <span role="columnheader">Phone</span>
+        <span role="columnheader">Product</span>
+        <span role="columnheader">Message</span>
+        <span role="columnheader">Status</span>
+        <span role="columnheader">Actions</span>
+      </div>
 
-          <label class="status-control">
-            <span>Update status</span>
-            <select
-              [value]="inquiry.status"
-              [disabled]="updatingId() === inquiry.id"
-              (change)="updateStatus(inquiry, $event)"
+      @for (inquiry of inquiries(); track inquiry.id) {
+        <article class="table-row" role="row">
+          <span role="cell" class="customer-cell">
+            <strong>{{ inquiry.customerName }}</strong>
+            <small>{{ inquiry.createdAt }}</small>
+          </span>
+          <span role="cell">{{ inquiry.email }}</span>
+          <span role="cell">{{ inquiry.phone }}</span>
+          <span role="cell">{{ inquiry.productName }}</span>
+          <span role="cell" class="message-cell">{{ inquiry.message }}</span>
+          <span role="cell">
+            <span [class]="'status-pill ' + statusClass(inquiry.status)">{{ inquiry.status }}</span>
+          </span>
+          <span class="actions" role="cell">
+            <button
+              type="button"
+              [disabled]="activeId() === inquiry.id || inquiry.status === 'Contacted'"
+              (click)="markAsContacted(inquiry)"
             >
-              @for (status of statuses; track status) {
-                <option [value]="status">{{ status }}</option>
-              }
-            </select>
-          </label>
+              Mark as Contacted
+            </button>
+            <button
+              type="button"
+              class="danger"
+              [disabled]="activeId() === inquiry.id"
+              (click)="deleteInquiry(inquiry)"
+            >
+              Delete
+            </button>
+          </span>
         </article>
       }
     </div>
