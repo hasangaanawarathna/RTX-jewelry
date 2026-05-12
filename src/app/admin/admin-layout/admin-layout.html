@@ -1,0 +1,50 @@
+<div class="admin-layout">
+  <aside class="admin-sidebar" aria-label="Admin navigation">
+    <a class="admin-brand" routerLink="/admin/dashboard" aria-label="RTX Jewelry admin dashboard">
+      <span class="brand-mark">RTX</span>
+      <span class="brand-copy">Jewelry Admin</span>
+    </a>
+
+    <div class="profile-card" aria-label="Admin profile">
+      <span class="profile-avatar">A</span>
+      <div>
+        <strong>Admin User</strong>
+        <small>Store Manager</small>
+      </div>
+    </div>
+
+    <nav class="sidebar-menu">
+      @for (item of navItems; track item.route) {
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.route === '/admin/dashboard' }"
+        >
+          <span class="nav-mark">{{ item.mark }}</span>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+      <button type="button" class="logout-link" (click)="logout()">
+        <span class="nav-mark">L</span>
+        <span>Logout</span>
+      </button>
+    </nav>
+  </aside>
+
+  <section class="admin-main">
+    <header class="admin-topbar">
+      <div>
+        <p>RTX Jewelry</p>
+        <h1>Admin Dashboard</h1>
+      </div>
+      <div class="topbar-actions">
+        <a routerLink="/" class="store-link">View Store</a>
+        <button type="button" (click)="logout()">Logout</button>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <router-outlet></router-outlet>
+    </main>
+  </section>
+</div>

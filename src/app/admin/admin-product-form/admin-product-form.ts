@@ -28,7 +28,8 @@ export class AdminProductForm {
   readonly isLoading = signal(false);
   readonly isSaving = signal(false);
   readonly errorMessage = signal<string | null>(null);
-  readonly previewImages = signal<string[]>([]);
+  readonly imagePreview = signal<string | null>(null);
+  readonly selectedImageName = signal<string | null>(null);
 
   private readonly productId = this.route.snapshot.paramMap.get('id');
   private loadedProduct: ProductItem | null = null;
@@ -38,19 +39,16 @@ export class AdminProductForm {
     category: ['', [Validators.required]],
     description: ['', [Validators.required, Validators.minLength(10)]],
     price: ['', [Validators.required]],
-    imageUrl: ['', [Validators.pattern(/^https?:\/\/.+/i)]],
-    imagesText: [''],
+    weight: ['', [Validators.required]],
+    material: ['', [Validators.required]],
     availability: ['In stock', [Validators.required]],
   });
 
   constructor() {
     this.isEditMode.set(this.productId !== null);
-    this.productForm.valueChanges.subscribe(() => this.updatePreviewImages());
 
     if (this.productId) {
       this.loadProduct(this.productId);
-    } else {
-      this.updatePreviewImages();
     }
   }
 
@@ -113,38 +111,60 @@ export class AdminProductForm {
             category: this.loadedProduct.category,
             description: this.loadedProduct.description,
             price: this.loadedProduct.price,
-            imageUrl: this.loadedProduct.imageUrl ?? '',
-            imagesText: this.loadedProduct.images.join('\n'),
+            weight: this.loadedProduct.weight,
+            material: this.loadedProduct.material,
             availability: this.loadedProduct.availability,
           });
+          this.imagePreview.set(this.loadedProduct.imageUrl);
+          this.selectedImageName.set(this.loadedProduct.imageUrl ? 'Current product image' : null);
         }
 
-        this.updatePreviewImages();
         this.isLoading.set(false);
       });
   }
 
-  private updatePreviewImages(): void {
-    const rawValue = this.productForm.getRawValue();
-    const imageUrl = rawValue.imageUrl?.trim();
-    const images = this.parseImages(rawValue.imagesText ?? '');
-    const previewImages = imageUrl ? [imageUrl, ...images.filter((item) => item !== imageUrl)] : images;
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
 
-    this.previewImages.set(previewImages);
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      this.errorMessage.set('Please choose a valid image file.');
+      input.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = typeof reader.result === 'string' ? reader.result : null;
+      this.imagePreview.set(result);
+      this.selectedImageName.set(file.name);
+      this.errorMessage.set(null);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  clearImage(): void {
+    this.imagePreview.set(null);
+    this.selectedImageName.set(null);
   }
 
   private toPayload(): ProductPayload {
     const rawValue = this.productForm.getRawValue();
-    const imageUrl = rawValue.imageUrl?.trim() || null;
-    const images = this.parseImages(rawValue.imagesText ?? '');
+    const imageUrl = this.imagePreview();
 
     return {
       name: rawValue.name?.trim() ?? '',
       category: rawValue.category?.trim() ?? '',
       description: rawValue.description?.trim() ?? '',
       price: rawValue.price?.trim() ?? '',
+      weight: rawValue.weight?.trim() ?? '',
+      material: rawValue.material?.trim() ?? '',
       imageUrl,
-      images: imageUrl ? [imageUrl, ...images.filter((item) => item !== imageUrl)] : images,
+      images: imageUrl ? [imageUrl] : [],
       availability: rawValue.availability?.trim() ?? 'Available for inquiry',
     };
   }
@@ -156,13 +176,6 @@ export class AdminProductForm {
       id,
       ...payload,
     };
-  }
-
-  private parseImages(value: string): string[] {
-    return value
-      .split(/\r?\n|,/)
-      .map((item) => item.trim())
-      .filter((item) => item.length > 0);
   }
 
   private slugify(value: string): string {

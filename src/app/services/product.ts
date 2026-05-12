@@ -9,6 +9,8 @@ export interface ProductItem {
   category: string;
   description: string;
   price: string;
+  weight: string;
+  material: string;
   imageUrl: string | null;
   images: string[];
   availability: string;
@@ -19,6 +21,8 @@ export interface ProductPayload {
   category: string;
   description: string;
   price: string;
+  weight: string;
+  material: string;
   imageUrl: string | null;
   images: string[];
   availability: string;
@@ -132,6 +136,8 @@ export class Product {
       category: this.toText(row['category']) ?? 'Jewelry',
       description: this.toText(row['description']) ?? '',
       price: this.toPriceText(row['price']),
+      weight: this.toText(row['weight']) ?? this.toText(row['weightGrams']) ?? 'By inquiry',
+      material: this.toText(row['material']) ?? this.toText(row['metal']) ?? 'Gold',
       imageUrl: primaryImage,
       images: images.length > 0 ? images : primaryImage ? [primaryImage] : [],
       availability: this.toAvailabilityText(row)

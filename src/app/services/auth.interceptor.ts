@@ -7,7 +7,8 @@ import { ADMIN_AUTH_SESSION_KEY, ADMIN_AUTH_TOKEN_KEY } from './auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (request, next) => {
   const router = inject(Router);
-  const token = localStorage.getItem(ADMIN_AUTH_TOKEN_KEY);
+  const token =
+    localStorage.getItem(ADMIN_AUTH_TOKEN_KEY) ?? sessionStorage.getItem(ADMIN_AUTH_SESSION_KEY);
   const isApiRequest =
     request.url.startsWith(environment.apiBaseUrl) || request.url.startsWith('/api/');
 

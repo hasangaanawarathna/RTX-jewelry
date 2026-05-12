@@ -112,7 +112,7 @@ export class AuthService {
 
   private storeToken(token: string): void {
     localStorage.setItem(ADMIN_AUTH_TOKEN_KEY, token);
-    sessionStorage.setItem(ADMIN_AUTH_SESSION_KEY, 'active');
+    sessionStorage.setItem(ADMIN_AUTH_SESSION_KEY, token);
     this.token.set(token);
   }
 }

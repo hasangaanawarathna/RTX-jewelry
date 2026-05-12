@@ -1,0 +1,67 @@
+<section class="settings-page" aria-labelledby="settings-title">
+  <div class="settings-header">
+    <p class="eyebrow">Admin Settings</p>
+    <h1 id="settings-title">Settings</h1>
+    <p>Manage the basic admin profile and store contact details used by the dashboard.</p>
+  </div>
+
+  <div class="settings-layout">
+    <form [formGroup]="settingsForm" (ngSubmit)="saveSettings()" novalidate>
+      <div class="form-row">
+        <label for="storeName">Store name</label>
+        <input id="storeName" type="text" formControlName="storeName" />
+        @if (settingsForm.controls.storeName.touched && settingsForm.controls.storeName.invalid) {
+          <p class="field-error">Store name is required.</p>
+        }
+      </div>
+
+      <div class="form-row">
+        <label for="contactEmail">Admin email</label>
+        <input id="contactEmail" type="email" formControlName="contactEmail" />
+        @if (settingsForm.controls.contactEmail.touched && settingsForm.controls.contactEmail.invalid) {
+          <p class="field-error">Enter a valid email address.</p>
+        }
+      </div>
+
+      <div class="form-row">
+        <label for="phone">Phone</label>
+        <input id="phone" type="text" formControlName="phone" />
+        @if (settingsForm.controls.phone.touched && settingsForm.controls.phone.invalid) {
+          <p class="field-error">Phone is required.</p>
+        }
+      </div>
+
+      <div class="form-row">
+        <label for="address">Address</label>
+        <textarea id="address" rows="4" formControlName="address"></textarea>
+        @if (settingsForm.controls.address.touched && settingsForm.controls.address.invalid) {
+          <p class="field-error">Address is required.</p>
+        }
+      </div>
+
+      <button type="submit" [disabled]="isSaving()">
+        {{ isSaving() ? 'Saving...' : 'Save Settings' }}
+      </button>
+    </form>
+
+    <aside class="profile-summary" aria-label="Admin profile summary">
+      <span class="avatar">A</span>
+      <h2>Admin User</h2>
+      <p>{{ settingsForm.controls.storeName.value }}</p>
+      <dl>
+        <div>
+          <dt>Email</dt>
+          <dd>{{ settingsForm.controls.contactEmail.value }}</dd>
+        </div>
+        <div>
+          <dt>Phone</dt>
+          <dd>{{ settingsForm.controls.phone.value }}</dd>
+        </div>
+        <div>
+          <dt>Location</dt>
+          <dd>{{ settingsForm.controls.address.value }}</dd>
+        </div>
+      </dl>
+    </aside>
+  </div>
+</section>

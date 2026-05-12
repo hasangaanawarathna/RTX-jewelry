@@ -11,6 +11,8 @@ export const DEMO_PRODUCTS: ProductItem[] = [
     description:
       'A handcrafted 22K gold necklace with layered detailing for weddings and milestone celebrations.',
     price: 'LKR 185,000',
+    weight: '34.2 g',
+    material: '22K Gold',
     imageUrl:
       'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=80',
     images: [
@@ -27,6 +29,8 @@ export const DEMO_PRODUCTS: ProductItem[] = [
     description:
       'A floral-inspired diamond ring with a refined profile, polished for daily comfort and shine.',
     price: 'LKR 98,000',
+    weight: '5.8 g',
+    material: '18K Gold, Diamond',
     imageUrl:
       'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1200&q=80',
     images: [
@@ -43,6 +47,8 @@ export const DEMO_PRODUCTS: ProductItem[] = [
     description:
       'Lightweight pearl earrings with a bright finish, designed for formal events and everyday elegance.',
     price: 'LKR 64,500',
+    weight: '7.4 g',
+    material: 'Pearl, 18K Gold',
     imageUrl:
       'https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?auto=format&fit=crop&w=1200&q=80',
     images: [
@@ -58,6 +64,8 @@ export const DEMO_PRODUCTS: ProductItem[] = [
     description:
       'A slim bracelet set with blue sapphire accents and secure clasp detailing for a polished fit.',
     price: 'LKR 142,000',
+    weight: '16.5 g',
+    material: '18K Gold, Sapphire',
     imageUrl:
       'https://images.unsplash.com/photo-1619119069152-a2b331eb392a?auto=format&fit=crop&w=1200&q=80',
     images: [
@@ -73,6 +81,8 @@ export const DEMO_PRODUCTS: ProductItem[] = [
     description:
       'A complete bridal jewelry set with matching necklace, earrings, and bangles for a coordinated look.',
     price: 'LKR 420,000',
+    weight: '86.0 g',
+    material: '22K Gold',
     imageUrl:
       'https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&w=1200&q=80',
     images: [
@@ -88,6 +98,8 @@ export const DEMO_PRODUCTS: ProductItem[] = [
     description:
       'A minimal rose gold bangle with clean lines, crafted for stacking or wearing as a single accent.',
     price: 'LKR 76,000',
+    weight: '12.8 g',
+    material: 'Rose Gold',
     imageUrl:
       'https://images.unsplash.com/photo-1620656798579-1984d9e87df5?auto=format&fit=crop&w=1200&q=80',
     images: [
