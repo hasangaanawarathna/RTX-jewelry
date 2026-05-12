@@ -15,7 +15,7 @@ import { AdminProducts } from './admin/admin-products/admin-products';
 import { AdminFeedback } from './admin/admin-feedback/admin-feedback';
 import { AdminInquiries } from './admin/admin-inquiries/admin-inquiries';
 import { AdminSettings } from './admin/admin-settings/admin-settings';
-import { adminAuthGuard } from './admin/auth.guard';
+import { adminAuthChildGuard, adminAuthGuard } from './admin/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -32,6 +32,7 @@ export const routes: Routes = [
         path: '',
         component: AdminLayout,
         canActivate: [adminAuthGuard],
+        canActivateChild: [adminAuthChildGuard],
         children: [
           { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
           { path: 'dashboard', component: AdminDashboard },

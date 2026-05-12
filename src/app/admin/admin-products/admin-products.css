@@ -147,6 +147,13 @@ h1 {
   padding: 11px 13px;
 }
 
+.filter-bar button:hover,
+.filter-bar button:focus-visible {
+  background: #7b5420;
+  outline: none;
+  transform: translateY(-1px);
+}
+
 .product-table {
   display: grid;
   gap: 10px;
