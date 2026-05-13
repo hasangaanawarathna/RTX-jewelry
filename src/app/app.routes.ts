@@ -18,12 +18,18 @@ import { AdminSettings } from './admin/admin-settings/admin-settings';
 import { adminAuthChildGuard, adminAuthGuard } from './admin/auth.guard';
 
 export const routes: Routes = [
-  { path: '', component: Home },
-  { path: 'products', component: Products },
-  { path: 'products/:id', component: ProductDetails },
-  { path: 'feedback', component: Feedback },
-  { path: 'offers', component: Offers },
-  { path: 'contact', component: ContactPage },
+  { path: '', redirectTo: 'user', pathMatch: 'full' },
+  {
+    path: 'user',
+    children: [
+      { path: '', component: Home },
+      { path: 'products', component: Products },
+      { path: 'products/:id', component: ProductDetails },
+      { path: 'feedback', component: Feedback },
+      { path: 'offers', component: Offers },
+      { path: 'contact', component: ContactPage },
+    ],
+  },
   {
     path: 'admin',
     children: [
@@ -50,5 +56,10 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '**', redirectTo: '' }
+  { path: 'products', redirectTo: 'user/products', pathMatch: 'full' },
+  { path: 'products/:id', redirectTo: 'user/products/:id' },
+  { path: 'feedback', redirectTo: 'user/feedback', pathMatch: 'full' },
+  { path: 'offers', redirectTo: 'user/offers', pathMatch: 'full' },
+  { path: 'contact', redirectTo: 'user/contact', pathMatch: 'full' },
+  { path: '**', redirectTo: 'user' }
 ];
