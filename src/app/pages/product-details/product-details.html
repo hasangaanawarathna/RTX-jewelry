@@ -1,7 +1,7 @@
 @if (product(); as item) {
   <section class="details-page" aria-labelledby="product-title">
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a routerLink="/products">Products</a>
+      <a routerLink="/user/products">Products</a>
       <span>/</span>
       <span>{{ item.name }}</span>
     </nav>
@@ -48,7 +48,7 @@
           </div>
         </dl>
 
-        <a routerLink="/contact" [queryParams]="{ product: item.id }" class="inquiry-button">
+        <a routerLink="/user/contact" [queryParams]="{ product: item.id }" class="inquiry-button">
           Inquiry About This Product
         </a>
       </article>
@@ -59,6 +59,6 @@
     <p class="eyebrow">Product Details</p>
     <h1 id="not-found-title">Product Not Found</h1>
     <p>The selected product is unavailable or has been removed.</p>
-    <a routerLink="/products">Back To Products</a>
+    <a routerLink="/user/products">Back To Products</a>
   </section>
 }
