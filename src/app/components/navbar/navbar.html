@@ -28,18 +28,6 @@
         <li>
           <button type="button" class="admin-login-link logout-button" (click)="logout()">Logout</button>
         </li>
-      } @else {
-        <li>
-          <a
-            routerLink="/admin/login"
-            routerLinkActive="active"
-            class="admin-login-link"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="closeMenu()"
-          >
-            Admin Login
-          </a>
-        </li>
       }
     </ul>
   </nav>
