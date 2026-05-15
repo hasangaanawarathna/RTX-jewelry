@@ -3,13 +3,8 @@ const path = require('node:path');
 
 const rootDirectory = path.resolve(__dirname, '..');
 const apiScript = path.join(__dirname, 'server.js');
-const ngBinary = path.join(
-  rootDirectory,
-  'node_modules',
-  '.bin',
-  process.platform === 'win32' ? 'ng.cmd' : 'ng'
-);
-const angularArgs = ['serve', ...process.argv.slice(2)];
+const angularCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+const angularArgs = ['run', 'start:client', '--', ...process.argv.slice(2)];
 
 let isStopping = false;
 
@@ -23,7 +18,7 @@ const apiProcess = spawn(process.execPath, [apiScript], {
   stdio: 'inherit',
 });
 
-const angularProcess = spawn(ngBinary, angularArgs, {
+const angularProcess = spawn(angularCommand, angularArgs, {
   cwd: rootDirectory,
   stdio: 'inherit',
   shell: process.platform === 'win32',
