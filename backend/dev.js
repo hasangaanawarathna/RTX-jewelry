@@ -26,6 +26,7 @@ const apiProcess = spawn(process.execPath, [apiScript], {
 const angularProcess = spawn(ngBinary, angularArgs, {
   cwd: rootDirectory,
   stdio: 'inherit',
+  shell: process.platform === 'win32',
 });
 
 apiProcess.on('exit', (code, signal) => {
