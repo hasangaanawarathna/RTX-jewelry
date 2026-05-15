@@ -1,10 +1,15 @@
 const http = require('node:http');
 const { URL } = require('node:url');
+const database = require('./database');
 
 const defaultPort = Number(process.env.PORT || process.env.API_PORT || 3000);
 const defaultHost = process.env.API_HOST || '127.0.0.1';
 const jsonLimitBytes = 10 * 1024 * 1024;
 let activeServer = null;
+const databaseReady = database.initDatabase().catch((error) => {
+  console.warn(`MySQL database unavailable. Falling back to demo memory data. ${error.message}`);
+  return false;
+});
 
 const state = {
   products: [
@@ -296,6 +301,11 @@ module.exports = {
 };
 
 async function handleProducts(request, response, parts) {
+  if (await isDatabaseReady()) {
+    await handleProductsDatabase(request, response, parts);
+    return;
+  }
+
   if (request.method === 'GET' && parts.length === 2) {
     sendJson(response, 200, { items: state.products });
     return;
@@ -345,6 +355,11 @@ async function handleProducts(request, response, parts) {
 }
 
 async function handleOffers(request, response, parts) {
+  if (await isDatabaseReady()) {
+    await handleOffersDatabase(request, response, parts);
+    return;
+  }
+
   if (request.method === 'GET' && parts.length === 2) {
     sendJson(response, 200, { items: state.offers });
     return;
@@ -389,6 +404,11 @@ async function handleOffers(request, response, parts) {
 }
 
 async function handleFeedback(request, response, parts) {
+  if (await isDatabaseReady()) {
+    await handleFeedbackDatabase(request, response, parts);
+    return;
+  }
+
   if (request.method === 'GET' && parts.length === 2) {
     sendJson(response, 200, { items: state.feedback });
     return;
@@ -429,6 +449,11 @@ async function handleFeedback(request, response, parts) {
 }
 
 async function handleInquiries(request, response, parts) {
+  if (await isDatabaseReady()) {
+    await handleInquiriesDatabase(request, response, parts);
+    return;
+  }
+
   if (request.method === 'GET' && parts.length === 2) {
     sendJson(response, 200, { items: state.inquiries });
     return;
@@ -466,6 +491,159 @@ async function handleInquiries(request, response, parts) {
   }
 
   sendJson(response, 405, { message: 'Method not allowed for inquiries.' });
+}
+
+async function handleProductsDatabase(request, response, parts) {
+  if (request.method === 'GET' && parts.length === 2) {
+    sendJson(response, 200, { items: await database.getProducts() });
+    return;
+  }
+
+  if (request.method === 'GET' && parts[2] === 'featured' && parts.length === 3) {
+    sendJson(response, 200, { items: await database.getFeaturedProducts() });
+    return;
+  }
+
+  if (request.method === 'GET' && parts.length === 3) {
+    const product = await database.getProductById(decodeURIComponent(parts[2]));
+    sendItem(response, product, 'Product not found.');
+    return;
+  }
+
+  if (request.method === 'POST' && parts.length === 2) {
+    const product = toProduct(await readJsonBody(request));
+    sendJson(response, 201, { item: await database.createProduct(product) });
+    return;
+  }
+
+  if (request.method === 'PUT' && parts.length === 3) {
+    const id = decodeURIComponent(parts[2]);
+    const product = toProduct({ ...(await readJsonBody(request)), id });
+    const updatedProduct = await database.updateProduct(id, product);
+    sendItem(response, updatedProduct, 'Product not found.');
+    return;
+  }
+
+  if (request.method === 'DELETE' && parts.length === 3) {
+    await database.deleteProduct(decodeURIComponent(parts[2]));
+    sendJson(response, 204);
+    return;
+  }
+
+  sendJson(response, 405, { message: 'Method not allowed for products.' });
+}
+
+async function handleOffersDatabase(request, response, parts) {
+  if (request.method === 'GET' && parts.length === 2) {
+    sendJson(response, 200, { items: await database.getOffers() });
+    return;
+  }
+
+  if (request.method === 'GET' && parts.length === 3) {
+    const offer = await database.getOfferById(decodeURIComponent(parts[2]));
+    sendItem(response, offer, 'Offer not found.');
+    return;
+  }
+
+  if (request.method === 'POST' && parts.length === 2) {
+    const offer = toOffer(await readJsonBody(request));
+    sendJson(response, 201, { item: await database.createOffer(offer) });
+    return;
+  }
+
+  if (request.method === 'PUT' && parts.length === 3) {
+    const id = decodeURIComponent(parts[2]);
+    const offer = toOffer({ ...(await readJsonBody(request)), id });
+    const updatedOffer = await database.updateOffer(id, offer);
+    sendItem(response, updatedOffer, 'Offer not found.');
+    return;
+  }
+
+  if (request.method === 'DELETE' && parts.length === 3) {
+    await database.deleteOffer(decodeURIComponent(parts[2]));
+    sendJson(response, 204);
+    return;
+  }
+
+  sendJson(response, 405, { message: 'Method not allowed for offers.' });
+}
+
+async function handleFeedbackDatabase(request, response, parts) {
+  if (request.method === 'GET' && parts.length === 2) {
+    sendJson(response, 200, { items: await database.getFeedback() });
+    return;
+  }
+
+  if (request.method === 'POST' && parts.length === 2) {
+    const feedback = toFeedback(await readJsonBody(request));
+    sendJson(response, 201, { feedback: await database.createFeedback(feedback) });
+    return;
+  }
+
+  if (request.method === 'PATCH' && parts.length === 4 && parts[3] === 'status') {
+    const body = await readJsonBody(request);
+    const feedback = await database.updateFeedbackStatus(
+      decodeURIComponent(parts[2]),
+      toFeedbackStatus(body.status)
+    );
+
+    if (!feedback) {
+      sendJson(response, 404, { message: 'Feedback not found.' });
+      return;
+    }
+
+    sendJson(response, 200, { feedback });
+    return;
+  }
+
+  if (request.method === 'DELETE' && parts.length === 3) {
+    await database.deleteFeedback(decodeURIComponent(parts[2]));
+    sendJson(response, 204);
+    return;
+  }
+
+  sendJson(response, 405, { message: 'Method not allowed for feedback.' });
+}
+
+async function handleInquiriesDatabase(request, response, parts) {
+  if (request.method === 'GET' && parts.length === 2) {
+    sendJson(response, 200, { items: await database.getInquiries() });
+    return;
+  }
+
+  if (request.method === 'POST' && parts.length === 2) {
+    const inquiry = toInquiry(await readJsonBody(request));
+    sendJson(response, 201, { inquiry: await database.createInquiry(inquiry) });
+    return;
+  }
+
+  if (request.method === 'PATCH' && parts.length === 4 && parts[3] === 'status') {
+    const body = await readJsonBody(request);
+    const inquiry = await database.updateInquiryStatus(
+      decodeURIComponent(parts[2]),
+      toText(body.status, 'New')
+    );
+
+    if (!inquiry) {
+      sendJson(response, 404, { message: 'Inquiry not found.' });
+      return;
+    }
+
+    sendJson(response, 200, { inquiry });
+    return;
+  }
+
+  if (request.method === 'DELETE' && parts.length === 3) {
+    await database.deleteInquiry(decodeURIComponent(parts[2]));
+    sendJson(response, 204);
+    return;
+  }
+
+  sendJson(response, 405, { message: 'Method not allowed for inquiries.' });
+}
+
+async function isDatabaseReady() {
+  return (await databaseReady) === true;
 }
 
 function toProduct(value) {

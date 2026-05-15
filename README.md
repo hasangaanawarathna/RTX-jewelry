@@ -14,6 +14,8 @@ This starts both the local API at `http://127.0.0.1:3000/api` and the Angular ap
 
 Running `ng serve` directly also starts the local API through `proxy.conf.js`, so `/api/*` requests do not fail when the frontend dev server boots by itself.
 
+The local API uses the XAMPP MySQL database named `rtx_jewelry`. On startup it creates these tables if they are missing: `products`, `offers`, `feedback`, and `inquiries`. Defaults are `DB_HOST=127.0.0.1`, `DB_PORT=3306`, `DB_USER=root`, and an empty `DB_PASSWORD`.
+
 If you only need the API, run:
 
 ```bash
