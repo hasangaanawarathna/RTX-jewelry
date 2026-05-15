@@ -12,6 +12,8 @@ npm start
 
 This starts both the local API at `http://127.0.0.1:3000/api` and the Angular app at `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+Running `ng serve` directly also starts the local API through `proxy.conf.js`, so `/api/*` requests do not fail when the frontend dev server boots by itself.
+
 If you only need the API, run:
 
 ```bash

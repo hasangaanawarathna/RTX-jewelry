@@ -1,9 +1,10 @@
 const http = require('node:http');
 const { URL } = require('node:url');
 
-const port = Number(process.env.PORT || process.env.API_PORT || 3000);
-const host = process.env.API_HOST || '127.0.0.1';
+const defaultPort = Number(process.env.PORT || process.env.API_PORT || 3000);
+const defaultHost = process.env.API_HOST || '127.0.0.1';
 const jsonLimitBytes = 10 * 1024 * 1024;
+let activeServer = null;
 
 const state = {
   products: [
@@ -194,68 +195,105 @@ const state = {
   ],
 };
 
-const server = http.createServer(async (request, response) => {
-  setCommonHeaders(response);
+function createApiServer(options = {}) {
+  const port = Number(options.port || defaultPort);
+  const host = options.host || defaultHost;
 
-  if (request.method === 'OPTIONS') {
-    response.writeHead(204);
-    response.end();
-    return;
-  }
+  return http.createServer(async (request, response) => {
+    setCommonHeaders(response);
 
-  try {
-    const url = new URL(request.url || '/', `http://${request.headers.host || `${host}:${port}`}`);
-    const parts = url.pathname.split('/').filter(Boolean);
+    if (request.method === 'OPTIONS') {
+      response.writeHead(204);
+      response.end();
+      return;
+    }
 
-    if (parts[0] !== 'api') {
+    try {
+      const url = new URL(request.url || '/', `http://${request.headers.host || `${host}:${port}`}`);
+      const parts = url.pathname.split('/').filter(Boolean);
+
+      if (parts[0] !== 'api') {
+        sendJson(response, 404, { message: 'API route not found.' });
+        return;
+      }
+
+      if (parts[1] === 'health') {
+        sendJson(response, 200, { status: 'ok' });
+        return;
+      }
+
+      if (parts[1] === 'products') {
+        await handleProducts(request, response, parts);
+        return;
+      }
+
+      if (parts[1] === 'offers') {
+        await handleOffers(request, response, parts);
+        return;
+      }
+
+      if (parts[1] === 'feedback') {
+        await handleFeedback(request, response, parts);
+        return;
+      }
+
+      if (parts[1] === 'inquiries') {
+        await handleInquiries(request, response, parts);
+        return;
+      }
+
       sendJson(response, 404, { message: 'API route not found.' });
-      return;
+    } catch (error) {
+      console.error(error);
+      sendJson(response, 500, { message: 'Unexpected API server error.' });
     }
+  });
+}
 
-    if (parts[1] === 'health') {
-      sendJson(response, 200, { status: 'ok' });
-      return;
-    }
+function startServer(options = {}) {
+  const port = Number(options.port || defaultPort);
+  const host = options.host || defaultHost;
 
-    if (parts[1] === 'products') {
-      await handleProducts(request, response, parts);
-      return;
-    }
-
-    if (parts[1] === 'offers') {
-      await handleOffers(request, response, parts);
-      return;
-    }
-
-    if (parts[1] === 'feedback') {
-      await handleFeedback(request, response, parts);
-      return;
-    }
-
-    if (parts[1] === 'inquiries') {
-      await handleInquiries(request, response, parts);
-      return;
-    }
-
-    sendJson(response, 404, { message: 'API route not found.' });
-  } catch (error) {
-    console.error(error);
-    sendJson(response, 500, { message: 'Unexpected API server error.' });
-  }
-});
-
-server.listen(port, host, () => {
-  console.log(`Local API server running at http://${host}:${port}/api`);
-});
-
-server.on('error', (error) => {
-  if (error.code === 'EADDRINUSE') {
-    console.error(`Port ${port} is already in use. Stop the other server or set API_PORT.`);
-    process.exit(1);
+  if (activeServer?.listening) {
+    return activeServer;
   }
 
-  throw error;
-});
+  const server = createApiServer({ host, port });
+  activeServer = server;
+
+  server.on('error', (error) => {
+    if (error.code === 'EADDRINUSE' && options.allowExisting) {
+      activeServer = null;
+      console.log(`Using existing API server at http://${host}:${port}/api`);
+      return;
+    }
+
+    if (error.code === 'EADDRINUSE') {
+      console.error(`Port ${port} is already in use. Stop the other server or set API_PORT.`);
+    } else {
+      console.error(error);
+    }
+
+    if (options.exitOnError !== false) {
+      process.exit(1);
+    }
+  });
+
+  server.listen(port, host, () => {
+    console.log(`Local API server running at http://${host}:${port}/api`);
+  });
+
+  return server;
+}
+
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = {
+  createApiServer,
+  startServer,
+};
 
 async function handleProducts(request, response, parts) {
   if (request.method === 'GET' && parts.length === 2) {
