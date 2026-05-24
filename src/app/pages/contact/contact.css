@@ -4,13 +4,13 @@
 }
 
 .contact-hero {
-  min-height: 340px;
+  min-height: 280px;
   display: grid;
   align-items: end;
-  padding: 72px 20px 46px;
+  padding: 56px 20px 38px;
   color: #fff8ea;
   background:
-    linear-gradient(90deg, rgba(12, 12, 12, 0.84), rgba(12, 12, 12, 0.28)),
+    linear-gradient(90deg, rgba(12, 12, 12, 0.78), rgba(12, 12, 12, 0.24)),
     url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1800&q=80')
       center / cover;
 }
@@ -22,10 +22,11 @@
 }
 
 .contact-hero p:last-child {
-  max-width: 650px;
+  max-width: 480px;
   margin: 0;
   color: #f4e7ce;
-  line-height: 1.7;
+  font-size: 1.05rem;
+  line-height: 1.55;
 }
 
 .eyebrow {
@@ -47,16 +48,17 @@ h2 {
 }
 
 h1 {
-  max-width: 720px;
+  max-width: 620px;
   color: #ffffff;
-  font-size: 3.8rem;
-  line-height: 1.02;
+  font-size: 3.2rem;
+  line-height: 1.06;
   text-transform: uppercase;
 }
 
 h2 {
   color: #171717;
-  font-size: 1.45rem;
+  font-size: 1.35rem;
+  line-height: 1.18;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -65,16 +67,16 @@ h2 {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
   gap: 22px;
-  padding: 54px 0;
+  padding: 44px 0;
 }
 
 .contact-panel,
 .shop-card {
   border: 1px solid rgba(126, 92, 36, 0.22);
   border-radius: 8px;
-  background: #fffdf8;
-  box-shadow: 0 14px 36px rgba(18, 18, 18, 0.08);
-  padding: 22px;
+  background: #fffdfa;
+  box-shadow: 0 12px 30px rgba(18, 18, 18, 0.07);
+  padding: 26px 28px;
 }
 
 form {
@@ -171,6 +173,7 @@ button:disabled {
 
 .shop-card {
   align-self: start;
+  min-height: 100%;
   background:
     linear-gradient(180deg, rgba(18, 18, 18, 0.78), rgba(18, 18, 18, 0.92)),
     url('https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=1000&q=80')
@@ -218,7 +221,7 @@ button:disabled {
   }
 
   h1 {
-    font-size: 3rem;
+    font-size: 2.7rem;
   }
 }
 
@@ -229,16 +232,16 @@ button:disabled {
   }
 
   .contact-hero {
-    min-height: 300px;
-    padding-top: 48px;
+    min-height: 250px;
+    padding-top: 42px;
   }
 
   h1 {
-    font-size: 2.3rem;
+    font-size: 2.1rem;
   }
 
   .contact-panel,
   .shop-card {
-    padding: 18px;
+    padding: 20px;
   }
 }
