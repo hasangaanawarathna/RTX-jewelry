@@ -7,7 +7,7 @@ const dbName = process.env.DB_NAME || 'rtx_jewelry';
 const dbHost = process.env.DB_HOST || '127.0.0.1';
 const dbPort = process.env.DB_PORT || '3307';
 const dbUser = process.env.DB_USER || 'root';
-const dbPassword = process.env.DB_PASSWORD || '';
+const dbPassword = process.env.DB_PASSWORD || '1234';
 const schemaPath = path.join(__dirname, 'schema.sql');
 const mysqlBin = resolveMysqlBinary();
 
