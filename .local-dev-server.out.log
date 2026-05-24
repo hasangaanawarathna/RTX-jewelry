@@ -1,9 +1,0 @@
-
-> rtx-jewelry-frontend@0.0.0 start
-> node backend/dev.js
-
-Local API server running at http://127.0.0.1:3000/api
-
-> rtx-jewelry-frontend@0.0.0 start:client
-> ng serve
-
