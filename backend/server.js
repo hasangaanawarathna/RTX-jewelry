@@ -1,10 +1,14 @@
 const http = require('node:http');
+const crypto = require('node:crypto');
 const { URL } = require('node:url');
 const database = require('./database');
 
 const defaultPort = Number(process.env.PORT || process.env.API_PORT || 3000);
 const defaultHost = process.env.API_HOST || '127.0.0.1';
 const jsonLimitBytes = 10 * 1024 * 1024;
+const adminUsername = process.env.ADMIN_USERNAME || 'admin';
+const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+const adminToken = process.env.ADMIN_TOKEN || crypto.randomBytes(32).toString('hex');
 let activeServer = null;
 const databaseReady = database.initDatabase().catch((error) => {
   console.warn(`MySQL database unavailable. Falling back to demo memory data. ${error.message}`);
@@ -230,6 +234,16 @@ function createApiServer(options = {}) {
         return;
       }
 
+      if (parts[1] === 'admin') {
+        await handleAdmin(request, response, parts);
+        return;
+      }
+
+      if (!isPublicApiRequest(request, parts) && !isAdminAuthenticated(request)) {
+        sendJson(response, 401, { message: 'Admin login is required for this action.' });
+        return;
+      }
+
       if (parts[1] === 'products') {
         await handleProducts(request, response, parts);
         return;
@@ -302,6 +316,30 @@ module.exports = {
   createApiServer,
   startServer,
 };
+
+async function handleAdmin(request, response, parts) {
+  if (request.method === 'POST' && parts.length === 3 && parts[2] === 'login') {
+    const body = await readJsonBody(request);
+    const username = toText(body.username, '').trim().toLowerCase();
+    const password = toText(body.password, '');
+
+    if (username === adminUsername.toLowerCase() && password === adminPassword) {
+      sendJson(response, 200, {
+        success: true,
+        token: adminToken,
+      });
+      return;
+    }
+
+    sendJson(response, 401, {
+      success: false,
+      message: 'Login failed. Check admin username and password.',
+    });
+    return;
+  }
+
+  sendJson(response, 404, { message: 'Admin API route not found.' });
+}
 
 async function handleProducts(request, response, parts) {
   if (await isDatabaseReady()) {
@@ -413,7 +451,10 @@ async function handleFeedback(request, response, parts) {
   }
 
   if (request.method === 'GET' && parts.length === 2) {
-    sendJson(response, 200, { items: state.feedback });
+    const items = isAdminAuthenticated(request)
+      ? state.feedback
+      : state.feedback.filter((item) => item.status === 'Approved');
+    sendJson(response, 200, { items });
     return;
   }
 
@@ -573,7 +614,12 @@ async function handleOffersDatabase(request, response, parts) {
 
 async function handleFeedbackDatabase(request, response, parts) {
   if (request.method === 'GET' && parts.length === 2) {
-    sendJson(response, 200, { items: await database.getFeedback() });
+    const items = await database.getFeedback();
+    sendJson(response, 200, {
+      items: isAdminAuthenticated(request)
+        ? items
+        : items.filter((item) => item.status === 'Approved'),
+    });
     return;
   }
 
@@ -647,6 +693,41 @@ async function handleInquiriesDatabase(request, response, parts) {
 
 async function isDatabaseReady() {
   return (await databaseReady) === true;
+}
+
+function isPublicApiRequest(request, parts) {
+  if (request.method === 'GET' && parts[1] === 'products') {
+    return true;
+  }
+
+  if (request.method === 'GET' && parts[1] === 'offers') {
+    return true;
+  }
+
+  if (request.method === 'GET' && parts[1] === 'feedback' && parts.length === 2) {
+    return true;
+  }
+
+  if (request.method === 'POST' && parts[1] === 'feedback' && parts.length === 2) {
+    return true;
+  }
+
+  if (request.method === 'POST' && parts[1] === 'inquiries' && parts.length === 2) {
+    return true;
+  }
+
+  return false;
+}
+
+function isAdminAuthenticated(request) {
+  const authorization = request.headers.authorization || '';
+  const token = authorization.startsWith('Bearer ') ? authorization.slice(7).trim() : '';
+
+  if (!token || token.length !== adminToken.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(Buffer.from(token), Buffer.from(adminToken));
 }
 
 function toProduct(value) {
