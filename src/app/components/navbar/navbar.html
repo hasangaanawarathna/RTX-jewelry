@@ -23,12 +23,6 @@
       <li><a routerLink="/user/offers" routerLinkActive="active" (click)="closeMenu()">Offers</a></li>
       <li><a routerLink="/user/feedback" routerLinkActive="active" (click)="closeMenu()">Feedback</a></li>
       <li><a routerLink="/user/contact" routerLinkActive="active" (click)="closeMenu()">Contact</a></li>
-      @if (auth.token()) {
-        <li><a routerLink="/admin/dashboard" routerLinkActive="active" (click)="closeMenu()">Dashboard</a></li>
-        <li>
-          <button type="button" class="admin-login-link logout-button" (click)="logout()">Logout</button>
-        </li>
-      }
     </ul>
   </nav>
 </header>

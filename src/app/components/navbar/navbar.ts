@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { Toast } from '../../services/toast';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -12,11 +10,6 @@ import { Toast } from '../../services/toast';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Navbar {
-  readonly auth = inject(AuthService);
-
-  private readonly router = inject(Router);
-  private readonly toast = inject(Toast);
-
   readonly isMenuOpen = signal(false);
 
   toggleMenu(): void {
@@ -25,12 +18,5 @@ export class Navbar {
 
   closeMenu(): void {
     this.isMenuOpen.set(false);
-  }
-
-  logout(): void {
-    this.auth.logout();
-    this.closeMenu();
-    this.toast.info('Admin logged out.');
-    this.router.navigateByUrl('/admin/login');
   }
 }

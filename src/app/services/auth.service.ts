@@ -1,5 +1,7 @@
-import { Injectable, signal } from '@angular/core';
-import { Observable, of, tap } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, map, of, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export const ADMIN_AUTH_TOKEN_KEY = 'admin_token';
 export const ADMIN_AUTH_SESSION_KEY = 'rtx_admin_session';
@@ -19,18 +21,25 @@ export interface AdminLoginResult {
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly demoUsername = 'admin';
-  private readonly demoPassword = 'admin123';
+  private readonly http = inject(HttpClient);
+  private readonly loginApiUrl = `${environment.apiBaseUrl}/admin/login`;
 
   readonly token = signal<string | null>(this.readStoredToken());
 
   login(payload: AdminLoginPayload): Observable<AdminLoginResult> {
-    return of(this.validateDemoLogin(payload)).pipe(
+    return this.http.post<unknown>(this.loginApiUrl, payload).pipe(
+      map((response) => this.toLoginResult(response)),
       tap((result) => {
         if (result.success && result.token) {
           this.storeToken(result.token);
         }
-      })
+      }),
+      catchError(() =>
+        of({
+          success: false,
+          message: 'Login failed. Check admin username and password.',
+        })
+      )
     );
   }
 
@@ -54,23 +63,6 @@ export class AuthService {
     return storedToken;
   }
 
-  private validateDemoLogin(payload: AdminLoginPayload): AdminLoginResult {
-    const username = payload.username.trim().toLowerCase();
-    const password = payload.password;
-
-    if (username === this.demoUsername && password === this.demoPassword) {
-      return {
-        success: true,
-        token: 'demo-admin-token',
-      };
-    }
-
-    return {
-      success: false,
-      message: 'Login failed. Check username and password.',
-    };
-  }
-
   private readStoredToken(): string | null {
     const localToken = localStorage.getItem(ADMIN_AUTH_TOKEN_KEY);
     const sessionToken = sessionStorage.getItem(ADMIN_AUTH_SESSION_KEY);
@@ -82,5 +74,24 @@ export class AuthService {
     localStorage.setItem(ADMIN_AUTH_TOKEN_KEY, token);
     sessionStorage.setItem(ADMIN_AUTH_SESSION_KEY, token);
     this.token.set(token);
+  }
+
+  private toLoginResult(response: unknown): AdminLoginResult {
+    if (response !== null && typeof response === 'object') {
+      const row = response as Record<string, unknown>;
+      const token = typeof row['token'] === 'string' ? row['token'] : undefined;
+      const message = typeof row['message'] === 'string' ? row['message'] : undefined;
+
+      return {
+        success: row['success'] === true && Boolean(token),
+        token,
+        message,
+      };
+    }
+
+    return {
+      success: false,
+      message: 'Login failed. Check admin username and password.',
+    };
   }
 }
