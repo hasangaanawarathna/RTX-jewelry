@@ -15,11 +15,11 @@ const state = {
   products: [
     {
       id: 'royal-gold-necklace',
-      name: 'Royal Gold Necklace',
+      name: 'Kandyan Gold Necklace',
       category: 'Necklaces',
       description:
-        'A handcrafted 22K gold necklace with layered detailing for weddings and milestone celebrations.',
-      price: 'LKR 185,000',
+        'A handcrafted 22K gold necklace with layered detailing for poruwa ceremonies, homecomings, and milestone celebrations.',
+      price: 'LKR 1,185,000',
       weight: '34.2 g',
       material: '22K Gold',
       imageUrl:
@@ -33,13 +33,13 @@ const state = {
     },
     {
       id: 'diamond-bloom-ring',
-      name: 'Diamond Bloom Ring',
+      name: 'Ceylon Sapphire Diamond Ring',
       category: 'Rings',
       description:
-        'A floral-inspired diamond ring with a refined profile, polished for daily comfort and shine.',
-      price: 'LKR 98,000',
-      weight: '5.8 g',
-      material: '18K Gold, Diamond',
+        'A Ceylon blue sapphire centre stone with small diamond accents, set in 18K gold for engagements and anniversary gifts.',
+      price: 'LKR 385,000',
+      weight: '6.2 g',
+      material: '18K Gold, Ceylon Sapphire, Diamond',
       imageUrl:
         'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1200&q=80',
       images: [
@@ -51,13 +51,13 @@ const state = {
     },
     {
       id: 'pearl-grace-earrings',
-      name: 'Pearl Grace Earrings',
+      name: 'Pearl Temple Earrings',
       category: 'Earrings',
       description:
-        'Lightweight pearl earrings with a bright finish, designed for formal events and everyday elegance.',
-      price: 'LKR 64,500',
-      weight: '7.4 g',
-      material: 'Pearl, 18K Gold',
+        'Freshwater pearl drop earrings with 18K gold hooks, light enough for office wear, weddings, and temple visits.',
+      price: 'LKR 92,000',
+      weight: '7.1 g',
+      material: 'Freshwater Pearl, 18K Gold',
       imageUrl:
         'https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?auto=format&fit=crop&w=1200&q=80',
       images: [
@@ -68,13 +68,13 @@ const state = {
     },
     {
       id: 'sapphire-tennis-bracelet',
-      name: 'Sapphire Tennis Bracelet',
+      name: 'Ceylon Sapphire Bracelet',
       category: 'Bracelets',
       description:
-        'A slim bracelet set with blue sapphire accents and secure clasp detailing for a polished fit.',
-      price: 'LKR 142,000',
+        'A slim bracelet set with blue Ceylon sapphire accents and secure clasp detailing for a polished fit.',
+      price: 'LKR 425,000',
       weight: '16.5 g',
-      material: '18K Gold, Sapphire',
+      material: '18K Gold, Ceylon Sapphire',
       imageUrl:
         'https://images.unsplash.com/photo-1619119069152-a2b331eb392a?auto=format&fit=crop&w=1200&q=80',
       images: [
@@ -85,12 +85,12 @@ const state = {
     },
     {
       id: 'bridal-radiance-set',
-      name: 'Bridal Radiance Set',
+      name: 'Kandyan Bridal Radiance Set',
       category: 'Bridal Collections',
       description:
-        'A complete bridal jewelry set with matching necklace, earrings, and bangles for a coordinated look.',
-      price: 'LKR 420,000',
-      weight: '86.0 g',
+        'A complete 22K gold bridal jewelry set with matching necklace, earrings, bangles, and hair pins for a coordinated Kandyan look.',
+      price: 'LKR 3,250,000',
+      weight: '96.4 g',
       material: '22K Gold',
       imageUrl:
         'https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&w=1200&q=80',
@@ -102,13 +102,13 @@ const state = {
     },
     {
       id: 'rose-gold-bangle',
-      name: 'Rose Gold Bangle',
+      name: 'Avurudu Gold Bangle',
       category: 'Bracelets',
       description:
-        'A minimal rose gold bangle with clean lines, crafted for stacking or wearing as a single accent.',
-      price: 'LKR 76,000',
-      weight: '12.8 g',
-      material: 'Rose Gold',
+        'A solid 22K gold bangle with soft traditional engraving, sized for everyday wear and Sinhala and Tamil New Year gifting.',
+      price: 'LKR 475,000',
+      weight: '15.8 g',
+      material: '22K Gold',
       imageUrl:
         'https://images.unsplash.com/photo-1620656798579-1984d9e87df5?auto=format&fit=crop&w=1200&q=80',
       images: [
@@ -121,81 +121,84 @@ const state = {
   offers: [
     {
       id: 'festival-gold-week',
-      title: 'Festival Gold Week',
-      description: 'Reduced making charges on selected gold necklaces, rings, and bangles.',
-      discount: '15% off',
-      code: 'GOLD15',
-      validFrom: 'May 8, 2026',
-      validUntil: 'May 31, 2026',
+      title: 'Vesak Making Charge Offer',
+      description:
+        'Lower making charges on selected 22K gold bangles, chains, and pendants for in-store purchases.',
+      discount: '10% off making charges',
+      code: 'VESAK10',
+      validFrom: 'May 25, 2026',
+      validUntil: 'June 8, 2026',
     },
     {
       id: 'bridal-bundle',
-      title: 'Bridal Collection Bundle',
+      title: 'Kandyan Bridal Package',
       description:
-        'Special pricing when you choose a matching bridal necklace, earrings, and bangles.',
-      discount: '12% bundle saving',
-      code: 'BRIDAL12',
-      validFrom: 'May 1, 2026',
-      validUntil: 'June 30, 2026',
+        'Book a bridal set consultation and receive bundle pricing on matching necklace, earrings, bangles, and hair pins.',
+      discount: 'LKR 75,000 bundle saving',
+      code: 'BRIDE75',
+      validFrom: 'May 25, 2026',
+      validUntil: 'July 31, 2026',
     },
     {
       id: 'diamond-upgrade',
-      title: 'Diamond Ring Upgrade',
-      description: 'Trade in an old ring and receive extra value toward a certified diamond ring.',
-      discount: 'LKR 25,000 extra value',
-      code: 'UPGRADE25',
-      validFrom: 'May 8, 2026',
-      validUntil: 'May 25, 2026',
+      title: 'Ceylon Sapphire Certificate Gift',
+      description:
+        'Selected sapphire rings include gemstone certification and complimentary resizing within 14 days.',
+      discount: 'Free certification',
+      code: 'SAPPHIRELK',
+      validFrom: 'May 25, 2026',
+      validUntil: 'June 30, 2026',
     },
   ],
   feedback: [
     {
       id: 'feedback-nethmi',
-      customerName: 'Nethmi',
-      message: 'Excellent craftsmanship and very professional service. The necklace looked beautiful.',
+      customerName: 'Nethmi Perera',
+      message:
+        'The Kandyan bridal set looked elegant for my poruwa ceremony, and the team adjusted the fit before the homecoming.',
       rating: 5,
-      createdAt: 'May 6, 2026',
+      createdAt: 'May 22, 2026',
       status: 'Approved',
     },
     {
       id: 'feedback-ishan',
-      customerName: 'Ishan',
-      message: 'The design consultation was smooth and personal. I found the perfect gift.',
+      customerName: 'Dinuka Jayasinghe',
+      message: 'They explained the sapphire quality clearly and helped me choose a ring within my budget.',
       rating: 5,
-      createdAt: 'May 3, 2026',
+      createdAt: 'May 18, 2026',
       status: 'Approved',
     },
     {
       id: 'feedback-amaya',
-      customerName: 'Amaya',
-      message: 'Beautiful finishing, careful packaging, and quick support from the shop team.',
+      customerName: 'Amaya Fernando',
+      message: 'Quick WhatsApp updates, careful packaging, and the bangle size was correct when it arrived in Galle.',
       rating: 4,
-      createdAt: 'April 28, 2026',
+      createdAt: 'May 12, 2026',
       status: 'Pending',
     },
   ],
   inquiries: [
     {
       id: 'inquiry-1001',
-      customerName: 'Kavindi',
-      phone: '+94771234567',
-      email: 'kavindi@example.com',
+      customerName: 'Tharushi Silva',
+      phone: '+94712345678',
+      email: 'tharushi.silva@example.lk',
       productId: 'bridal-radiance-set',
-      productName: 'Bridal Radiance Set',
-      message: 'Please share appointment times for bridal set selection.',
+      productName: 'Kandyan Bridal Radiance Set',
+      message: 'Can I book a weekend appointment in Colombo for a Kandyan bridal set fitting?',
       status: 'New',
-      createdAt: 'May 8, 2026',
+      createdAt: 'May 24, 2026',
     },
     {
       id: 'inquiry-1002',
-      customerName: 'Ravindu',
-      phone: '+94779876543',
-      email: 'ravindu@example.com',
+      customerName: 'Malith Fernando',
+      phone: '+94773456789',
+      email: 'malith.fernando@example.lk',
       productId: 'diamond-bloom-ring',
-      productName: 'Diamond Bloom Ring',
-      message: 'I would like to know available ring sizes.',
+      productName: 'Ceylon Sapphire Diamond Ring',
+      message: 'Please share available Ceylon sapphire stone sizes and whether certification is included.',
       status: 'Contacted',
-      createdAt: 'May 7, 2026',
+      createdAt: 'May 23, 2026',
     },
   ],
 };
