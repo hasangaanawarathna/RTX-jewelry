@@ -140,11 +140,17 @@ VALUES
     'LKR 475,000',
     '15.8 g',
     '22K Gold',
-    'https://images.unsplash.com/photo-1620656798579-1984d9e87df5?auto=format&fit=crop&w=1200&q=80',
-    '["https://images.unsplash.com/photo-1620656798579-1984d9e87df5?auto=format&fit=crop&w=1200&q=80","https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=1200&q=80"]',
+    'https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=1200&q=80',
+    '["https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=1200&q=80"]',
     'In stock',
     6
   );
+
+UPDATE `products`
+SET
+  `image_url` = 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=1200&q=80',
+  `images` = '["https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=1200&q=80"]'
+WHERE `id` = 'rose-gold-bangle';
 
 UPDATE `products`
 SET
