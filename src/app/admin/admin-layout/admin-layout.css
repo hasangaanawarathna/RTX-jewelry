@@ -195,7 +195,6 @@
   justify-content: flex-end;
 }
 
-.store-link,
 .topbar-actions button {
   border: 1px solid rgba(92, 70, 29, 0.16);
   border-radius: 8px;
@@ -206,18 +205,11 @@
   text-decoration: none;
 }
 
-.store-link {
-  background: #ffffff;
-  color: #7b5420;
-}
-
 .topbar-actions button {
   background: #17120c;
   color: #fff8e8;
 }
 
-.store-link:hover,
-.store-link:focus-visible,
 .topbar-actions button:hover,
 .topbar-actions button:focus-visible {
   border-color: rgba(214, 170, 82, 0.56);
@@ -267,12 +259,10 @@
   }
 
   .topbar-actions,
-  .store-link,
   .topbar-actions button {
     width: 100%;
   }
 
-  .store-link,
   .topbar-actions button {
     text-align: center;
   }
