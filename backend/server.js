@@ -206,6 +206,20 @@ const state = {
   ],
 };
 
+class RequestBodyTooLargeError extends Error {
+  constructor() {
+    super('Request body is too large.');
+    this.name = 'RequestBodyTooLargeError';
+  }
+}
+
+class InvalidJsonError extends Error {
+  constructor() {
+    super('Invalid JSON request body.');
+    this.name = 'InvalidJsonError';
+  }
+}
+
 function createApiServer(options = {}) {
   const port = Number(options.port || defaultPort);
   const host = options.host || defaultHost;
@@ -265,6 +279,16 @@ function createApiServer(options = {}) {
 
       sendJson(response, 404, { message: 'API route not found.' });
     } catch (error) {
+      if (error instanceof RequestBodyTooLargeError) {
+        sendJson(response, 413, { message: 'Request body is too large. Please choose a smaller image.' });
+        return;
+      }
+
+      if (error instanceof InvalidJsonError) {
+        sendJson(response, 400, { message: error.message });
+        return;
+      }
+
       console.error(error);
       sendJson(response, 500, { message: 'Unexpected API server error.' });
     }
@@ -796,18 +820,33 @@ function toInquiry(value) {
 
 function readJsonBody(request) {
   return new Promise((resolve, reject) => {
+    const contentLength = Number(request.headers['content-length'] || 0);
     let body = '';
+    let isTooLarge = contentLength > jsonLimitBytes;
+
+    if (isTooLarge) {
+      request.resume();
+    }
 
     request.on('data', (chunk) => {
+      if (isTooLarge) {
+        return;
+      }
+
       body += chunk;
 
       if (Buffer.byteLength(body) > jsonLimitBytes) {
-        reject(new Error('Request body is too large.'));
-        request.destroy();
+        isTooLarge = true;
+        body = '';
       }
     });
 
     request.on('end', () => {
+      if (isTooLarge) {
+        reject(new RequestBodyTooLargeError());
+        return;
+      }
+
       if (!body.trim()) {
         resolve({});
         return;
@@ -816,7 +855,7 @@ function readJsonBody(request) {
       try {
         resolve(JSON.parse(body));
       } catch {
-        reject(new Error('Invalid JSON request body.'));
+        reject(new InvalidJsonError());
       }
     });
 

@@ -17,6 +17,9 @@ import { Toast } from '../../services/toast';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminProductForm {
+  private readonly maxImageDimension = 1200;
+  private readonly imageQuality = 0.82;
+
   private readonly formBuilder = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -123,7 +126,7 @@ export class AdminProductForm {
       });
   }
 
-  onImageSelected(event: Event): void {
+  async onImageSelected(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0] ?? null;
 
@@ -137,14 +140,15 @@ export class AdminProductForm {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = typeof reader.result === 'string' ? reader.result : null;
-      this.imagePreview.set(result);
-      this.selectedImageName.set(file.name);
+    try {
+      const imageDataUrl = await this.resizeImage(file);
+      this.imagePreview.set(imageDataUrl);
+      this.selectedImageName.set(`${file.name} (optimized)`);
       this.errorMessage.set(null);
-    };
-    reader.readAsDataURL(file);
+    } catch {
+      this.errorMessage.set('Product image could not be processed. Please choose a JPG, PNG, or WebP image.');
+      input.value = '';
+    }
   }
 
   clearImage(): void {
@@ -167,6 +171,43 @@ export class AdminProductForm {
       images: imageUrl ? [imageUrl] : [],
       availability: rawValue.availability?.trim() ?? 'Available for inquiry',
     };
+  }
+
+  private resizeImage(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      const objectUrl = URL.createObjectURL(file);
+
+      image.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+
+        const scale = Math.min(
+          1,
+          this.maxImageDimension / Math.max(image.naturalWidth, image.naturalHeight)
+        );
+        const width = Math.max(1, Math.round(image.naturalWidth * scale));
+        const height = Math.max(1, Math.round(image.naturalHeight * scale));
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+
+        const context = canvas.getContext('2d');
+        if (!context) {
+          reject(new Error('Canvas is unavailable.'));
+          return;
+        }
+
+        context.drawImage(image, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', this.imageQuality));
+      };
+
+      image.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        reject(new Error('Image could not be loaded.'));
+      };
+
+      image.src = objectUrl;
+    });
   }
 
   private toPreviewProduct(payload: ProductPayload): ProductItem {
