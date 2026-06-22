@@ -1,6 +1,6 @@
 :host {
   display: block;
-  color: #241f1a;
+  color: #20252b;
 }
 
 .contact-hero {
@@ -8,7 +8,7 @@
   display: grid;
   align-items: end;
   padding: 56px 20px 38px;
-  color: #fff8ea;
+  color: #f8fbfb;
   background:
     linear-gradient(90deg, rgba(12, 12, 12, 0.78), rgba(12, 12, 12, 0.24)),
     url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1800&q=80')
@@ -24,14 +24,14 @@
 .contact-hero p:last-child {
   max-width: 480px;
   margin: 0;
-  color: #f4e7ce;
+  color: #e9f2f3;
   font-size: 1.05rem;
   line-height: 1.55;
 }
 
 .eyebrow {
   margin: 0 0 8px;
-  color: #9a6b2d;
+  color: #8f4961;
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -39,7 +39,7 @@
 }
 
 .contact-hero .eyebrow {
-  color: #f0c979;
+  color: #d9b77a;
 }
 
 h1,
@@ -56,7 +56,7 @@ h1 {
 }
 
 h2 {
-  color: #171717;
+  color: #17212b;
   font-size: 1.35rem;
   line-height: 1.18;
   letter-spacing: 0.04em;
@@ -72,9 +72,9 @@ h2 {
 
 .contact-panel,
 .shop-card {
-  border: 1px solid rgba(126, 92, 36, 0.22);
+  border: 1px solid rgba(23, 63, 95, 0.22);
   border-radius: 8px;
-  background: #fffdfa;
+  background: #ffffff;
   box-shadow: 0 12px 30px rgba(18, 18, 18, 0.07);
   padding: 26px 28px;
 }
@@ -97,7 +97,7 @@ form {
 }
 
 label {
-  color: #322819;
+  color: #2d3339;
   font-weight: 700;
 }
 
@@ -105,10 +105,10 @@ input,
 select,
 textarea {
   width: 100%;
-  border: 1px solid rgba(83, 65, 38, 0.28);
+  border: 1px solid rgba(45, 51, 57, 0.28);
   border-radius: 8px;
   background: #ffffff;
-  color: #241f1a;
+  color: #20252b;
   font: inherit;
   padding: 12px 13px;
   outline: none;
@@ -121,8 +121,8 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: #b4833c;
-  box-shadow: 0 0 0 3px rgba(180, 131, 60, 0.18);
+  border-color: #b85c70;
+  box-shadow: 0 0 0 3px rgba(184, 92, 112, 0.18);
 }
 
 .field-error,
@@ -136,10 +136,10 @@ textarea:focus {
 }
 
 .form-success {
-  border: 1px solid rgba(31, 116, 87, 0.25);
+  border: 1px solid rgba(31, 111, 139, 0.25);
   border-radius: 8px;
-  background: rgba(31, 116, 87, 0.08);
-  color: #165f48;
+  background: rgba(31, 111, 139, 0.08);
+  color: #1f6f8b;
   padding: 11px 12px;
 }
 
@@ -148,8 +148,8 @@ button,
   justify-self: start;
   border: 0;
   border-radius: 8px;
-  background: #171717;
-  color: #fff8ea;
+  background: #17212b;
+  color: #f8fbfb;
   font-weight: 800;
   text-decoration: none;
   padding: 12px 18px;
@@ -161,7 +161,7 @@ button:hover,
 button:focus-visible,
 .text-link:hover,
 .text-link:focus-visible {
-  background: #7b5420;
+  background: #6f344a;
   transform: translateY(-1px);
   outline: none;
 }
@@ -178,15 +178,15 @@ button:disabled {
     linear-gradient(180deg, rgba(18, 18, 18, 0.78), rgba(18, 18, 18, 0.92)),
     url('https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=1000&q=80')
       center / cover;
-  color: #f8ecd5;
+  color: #edf7f8;
 }
 
 .shop-card h2 {
-  color: #fffaf1;
+  color: #f8fbfb;
 }
 
 .shop-card .eyebrow {
-  color: #f0c979;
+  color: #d9b77a;
 }
 
 .info-list {
@@ -202,7 +202,7 @@ button:disabled {
 
 .info-list span {
   display: block;
-  color: #e6c070;
+  color: #d9b77a;
   font-weight: 800;
   text-transform: uppercase;
   font-size: 0.78rem;
@@ -210,8 +210,8 @@ button:disabled {
 }
 
 .shop-card .text-link {
-  background: #f0c979;
-  color: #171717;
+  background: #d9b77a;
+  color: #17212b;
 }
 
 @media (max-width: 900px) {
