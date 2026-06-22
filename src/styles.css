@@ -8,8 +8,8 @@ html {
 
 body {
   margin: 0;
-  background: #f6efe1;
-  color: #241f1a;
+  background: #f3f7f6;
+  color: #20252b;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -22,7 +22,7 @@ p {
 
 .eyebrow {
   margin: 0 0 8px;
-  color: #9a6b2d;
+  color: #8f4961;
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -54,21 +54,21 @@ app-home .section-header {
 
 app-home h2 {
   margin-bottom: 0;
-  color: #151515;
+  color: #17212b;
   font-size: 1.65rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
 app-home .section-link {
-  color: #6f4a16;
+  color: #8f4961;
   font-weight: 800;
   text-decoration: none;
 }
 
 app-home .section-link:hover,
 app-home .section-link:focus-visible {
-  color: #123d34;
+  color: #173f5f;
   text-decoration: underline;
   outline: none;
 }
