@@ -8,7 +8,7 @@
   z-index: 1000;
   background: rgba(13, 13, 13, 0.95);
   backdrop-filter: blur(6px);
-  border-bottom: 1px solid rgba(198, 159, 84, 0.25);
+  border-bottom: 1px solid rgba(184, 92, 112, 0.25);
 }
 
 .navbar {
@@ -30,14 +30,14 @@
 }
 
 .brand-mark {
-  color: #c69f54;
+  color: #b85c70;
   font-size: 1.1rem;
   letter-spacing: 0.16em;
   font-weight: 700;
 }
 
 .brand-name {
-  color: #fbf6eb;
+  color: #f7fbfb;
   font-size: 1.1rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -47,9 +47,9 @@
   display: none;
   width: 42px;
   height: 42px;
-  border: 1px solid rgba(198, 159, 84, 0.45);
+  border: 1px solid rgba(184, 92, 112, 0.45);
   border-radius: 8px;
-  background: rgba(198, 159, 84, 0.1);
+  background: rgba(184, 92, 112, 0.1);
   cursor: pointer;
   flex-direction: column;
   justify-content: center;
@@ -60,7 +60,7 @@
 .menu-toggle span {
   width: 100%;
   height: 2px;
-  background: #f8ecd2;
+  background: #edf7f8;
   border-radius: 999px;
 }
 
@@ -76,7 +76,7 @@
 }
 
 .nav-links a {
-  color: #f8ecd2;
+  color: #edf7f8;
   text-decoration: none;
   font-size: 0.92rem;
   padding: 8px 10px;
@@ -86,14 +86,14 @@
 
 .nav-links a:hover,
 .nav-links a:focus-visible {
-  background: rgba(198, 159, 84, 0.15);
-  color: #ffd98d;
+  background: rgba(184, 92, 112, 0.15);
+  color: #f0c7d2;
   outline: none;
 }
 
 .nav-links a.active {
-  background: #c69f54;
-  color: #121212;
+  background: #b85c70;
+  color: #17212b;
   font-weight: 600;
 }
 
