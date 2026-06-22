@@ -6,11 +6,11 @@
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
-	background: #f9f4e8;
+	background: #f4f7f6;
 }
 
 .app-shell.admin-shell-active {
-	background: #f5f1e9;
+	background: #eef3f2;
 }
 
 .content-area {
