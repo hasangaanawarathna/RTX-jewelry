@@ -1,16 +1,16 @@
 :host {
   display: block;
-  color: #20252b;
+  color: var(--color-ink);
 }
 
 .contact-hero {
-  min-height: 280px;
+  min-height: 290px;
   display: grid;
   align-items: end;
-  padding: 56px 20px 38px;
-  color: #f8fbfb;
+  padding: 58px 20px 40px;
+  color: #fffaf2;
   background:
-    linear-gradient(90deg, rgba(12, 12, 12, 0.78), rgba(12, 12, 12, 0.24)),
+    linear-gradient(90deg, rgba(18, 22, 23, 0.82), rgba(18, 22, 23, 0.24)),
     url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1800&q=80')
       center / cover;
 }
@@ -21,25 +21,16 @@
   margin: 0 auto;
 }
 
+.contact-hero .eyebrow {
+  color: var(--color-gold-soft);
+}
+
 .contact-hero p:last-child {
   max-width: 480px;
   margin: 0;
-  color: #e9f2f3;
+  color: rgba(255, 250, 242, 0.88);
   font-size: 1.05rem;
   line-height: 1.55;
-}
-
-.eyebrow {
-  margin: 0 0 8px;
-  color: #8f4961;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.contact-hero .eyebrow {
-  color: #d9b77a;
 }
 
 h1,
@@ -48,7 +39,7 @@ h2 {
 }
 
 h1 {
-  max-width: 620px;
+  max-width: 650px;
   color: #ffffff;
   font-size: 3.2rem;
   line-height: 1.06;
@@ -56,27 +47,27 @@ h1 {
 }
 
 h2 {
-  color: #17212b;
-  font-size: 1.35rem;
+  color: var(--color-heading);
+  font-size: 1.38rem;
   line-height: 1.18;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
 .contact-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
-  gap: 22px;
-  padding: 44px 0;
+  gap: 24px;
+  padding: 48px 0;
 }
 
 .contact-panel,
 .shop-card {
-  border: 1px solid rgba(23, 63, 95, 0.22);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 12px 30px rgba(18, 18, 18, 0.07);
-  padding: 26px 28px;
+  background: var(--color-card);
+  box-shadow: var(--shadow-soft);
+  padding: 28px;
 }
 
 form {
@@ -97,18 +88,18 @@ form {
 }
 
 label {
-  color: #2d3339;
-  font-weight: 700;
+  color: var(--color-heading);
+  font-weight: 800;
 }
 
 input,
 select,
 textarea {
   width: 100%;
-  border: 1px solid rgba(45, 51, 57, 0.28);
+  border: 1px solid rgba(32, 29, 26, 0.18);
   border-radius: 8px;
   background: #ffffff;
-  color: #20252b;
+  color: var(--color-ink);
   font: inherit;
   padding: 12px 13px;
   outline: none;
@@ -121,8 +112,8 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: #b85c70;
-  box-shadow: 0 0 0 3px rgba(184, 92, 112, 0.18);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(123, 31, 53, 0.14);
 }
 
 .field-error,
@@ -136,10 +127,10 @@ textarea:focus {
 }
 
 .form-success {
-  border: 1px solid rgba(31, 111, 139, 0.25);
+  border: 1px solid rgba(22, 72, 61, 0.25);
   border-radius: 8px;
-  background: rgba(31, 111, 139, 0.08);
-  color: #1f6f8b;
+  background: rgba(22, 72, 61, 0.08);
+  color: var(--color-forest);
   padding: 11px 12px;
 }
 
@@ -147,23 +138,16 @@ button,
 .text-link {
   justify-self: start;
   border: 0;
-  border-radius: 8px;
-  background: #17212b;
-  color: #f8fbfb;
-  font-weight: 800;
-  text-decoration: none;
-  padding: 12px 18px;
+  background: var(--color-heading);
+  color: #fffaf2;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 button:hover,
 button:focus-visible,
 .text-link:hover,
 .text-link:focus-visible {
-  background: #6f344a;
-  transform: translateY(-1px);
-  outline: none;
+  background: var(--color-accent);
 }
 
 button:disabled {
@@ -175,18 +159,19 @@ button:disabled {
   align-self: start;
   min-height: 100%;
   background:
-    linear-gradient(180deg, rgba(18, 18, 18, 0.78), rgba(18, 18, 18, 0.92)),
+    linear-gradient(180deg, rgba(18, 22, 23, 0.78), rgba(18, 22, 23, 0.94)),
     url('https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=1000&q=80')
       center / cover;
-  color: #edf7f8;
+  color: #fffaf2;
 }
 
 .shop-card h2 {
-  color: #f8fbfb;
+  color: #ffffff;
 }
 
-.shop-card .eyebrow {
-  color: #d9b77a;
+.shop-card .eyebrow,
+.info-list span {
+  color: var(--color-gold-soft);
 }
 
 .info-list {
@@ -202,16 +187,15 @@ button:disabled {
 
 .info-list span {
   display: block;
-  color: #d9b77a;
-  font-weight: 800;
-  text-transform: uppercase;
   font-size: 0.78rem;
-  letter-spacing: 0.08em;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .shop-card .text-link {
-  background: #d9b77a;
-  color: #17212b;
+  background: var(--color-gold-soft);
+  color: var(--color-heading);
 }
 
 @media (max-width: 900px) {
