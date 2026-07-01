@@ -48,7 +48,7 @@ img {
   color: var(--color-accent);
   font-size: 0.76rem;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
