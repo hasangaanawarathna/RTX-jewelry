@@ -1,0 +1,127 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --color-page: #f7f3ec;
+  --color-shell: #f7f3ec;
+  --color-ink: #201d1a;
+  --color-heading: #121617;
+  --color-muted: #655f57;
+  --color-accent: #7b1f35;
+  --color-accent-strong: #4f1322;
+  --color-forest: #16483d;
+  --color-gold: #c29649;
+  --color-gold-soft: #f3dfb9;
+  --color-card: #fffaf2;
+  --color-card-alt: #ffffff;
+  --color-border: rgba(32, 29, 26, 0.13);
+  --shadow-soft: 0 18px 44px rgba(40, 31, 23, 0.1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0)),
+    var(--color-page);
+  color: var(--color-ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--color-accent);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+app-home .btn,
+app-contact button,
+app-feedback button,
+app-products .details-link,
+app-product-details .inquiry-button,
+app-product-details .not-found a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-weight: 800;
+  padding: 12px 18px;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+app-home .btn:hover,
+app-home .btn:focus-visible,
+app-contact button:hover,
+app-contact button:focus-visible,
+app-feedback button:hover,
+app-feedback button:focus-visible,
+app-products .details-link:hover,
+app-products .details-link:focus-visible,
+app-product-details .inquiry-button:hover,
+app-product-details .inquiry-button:focus-visible,
+app-product-details .not-found a:hover,
+app-product-details .not-found a:focus-visible {
+  transform: translateY(-1px);
+  outline: none;
+  box-shadow: 0 10px 22px rgba(79, 19, 34, 0.16);
+}
+
+app-home .section-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+app-home h2 {
+  margin-bottom: 0;
+  color: var(--color-heading);
+  font-size: 1.72rem;
+  line-height: 1.12;
+  text-transform: uppercase;
+}
+
+app-home .section-link {
+  color: var(--color-accent);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+app-home .section-link:hover,
+app-home .section-link:focus-visible {
+  color: var(--color-forest);
+  text-decoration: underline;
+  outline: none;
+}
+
+app-root .app-shell,
+app-root .app-shell.admin-shell-active {
+  background: var(--color-shell);
+}
