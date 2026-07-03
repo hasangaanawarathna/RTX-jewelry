@@ -1,14 +1,17 @@
 const http = require('node:http');
 const crypto = require('node:crypto');
+const fs = require('node:fs');
+const path = require('node:path');
 const { URL } = require('node:url');
 const database = require('./database');
 
 const defaultPort = Number(process.env.PORT || process.env.API_PORT || 3000);
-const defaultHost = process.env.API_HOST || '127.0.0.1';
+const defaultHost = process.env.API_HOST || process.env.HOST || '0.0.0.0';
 const jsonLimitBytes = 10 * 1024 * 1024;
 const adminUsername = process.env.ADMIN_USERNAME || 'admin';
 const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
 const adminToken = process.env.ADMIN_TOKEN || crypto.randomBytes(32).toString('hex');
+const clientDistPath = path.resolve(__dirname, '..', 'dist', 'rtx-jewelry-frontend', 'browser');
 let activeServer = null;
 const databaseReady = database.initDatabase().catch((error) => {
   console.warn(`MySQL database unavailable. Falling back to demo memory data. ${error.message}`);
@@ -238,7 +241,7 @@ function createApiServer(options = {}) {
       const parts = url.pathname.split('/').filter(Boolean);
 
       if (parts[0] !== 'api') {
-        sendJson(response, 404, { message: 'API route not found.' });
+        serveClientApp(url.pathname, response);
         return;
       }
 
@@ -293,6 +296,57 @@ function createApiServer(options = {}) {
       sendJson(response, 500, { message: 'Unexpected API server error.' });
     }
   });
+}
+
+function serveClientApp(requestPath, response) {
+  const indexPath = path.join(clientDistPath, 'index.html');
+  const decodedPath = safeDecodePath(requestPath);
+  const requestedFilePath = path.resolve(
+    clientDistPath,
+    decodedPath.replace(/^\/+/, '') || 'index.html'
+  );
+  const isInsideClientDist = requestedFilePath === clientDistPath ||
+    requestedFilePath.startsWith(`${clientDistPath}${path.sep}`);
+  const filePath = isInsideClientDist && fs.existsSync(requestedFilePath) && fs.statSync(requestedFilePath).isFile()
+    ? requestedFilePath
+    : indexPath;
+
+  if (!fs.existsSync(filePath)) {
+    sendJson(response, 404, { message: 'Client build not found. Run npm run build before starting production.' });
+    return;
+  }
+
+  response.writeHead(200, {
+    'Content-Type': getContentType(filePath),
+    'Cache-Control': filePath === indexPath ? 'no-cache' : 'public, max-age=31536000, immutable',
+  });
+  fs.createReadStream(filePath).pipe(response);
+}
+
+function safeDecodePath(requestPath) {
+  try {
+    return decodeURIComponent(requestPath);
+  } catch {
+    return '/';
+  }
+}
+
+function getContentType(filePath) {
+  const extension = path.extname(filePath).toLowerCase();
+
+  return {
+    '.css': 'text/css; charset=utf-8',
+    '.html': 'text/html; charset=utf-8',
+    '.ico': 'image/x-icon',
+    '.js': 'text/javascript; charset=utf-8',
+    '.json': 'application/json; charset=utf-8',
+    '.map': 'application/json; charset=utf-8',
+    '.png': 'image/png',
+    '.svg': 'image/svg+xml',
+    '.webp': 'image/webp',
+    '.woff': 'font/woff',
+    '.woff2': 'font/woff2',
+  }[extension] || 'application/octet-stream';
 }
 
 function startServer(options = {}) {
