@@ -52,6 +52,46 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
+## Production deployment
+
+Build the Angular app and start the production server:
+
+```bash
+npm install
+npm run build
+npm start
+```
+
+The production server serves both the API at `/api` and the Angular app from `dist/rtx-jewelry-frontend/browser`, so deploy this as one Node web service.
+
+Recommended hosting settings:
+
+```txt
+Build command: npm install && npm run build
+Start command: npm start
+```
+
+Set these environment variables on the host:
+
+```txt
+ADMIN_USERNAME=your-admin-username
+ADMIN_PASSWORD=your-strong-password
+ADMIN_TOKEN=your-long-random-token
+```
+
+Optional MySQL variables:
+
+```txt
+DB_HOST=
+DB_PORT=
+DB_USER=
+DB_PASSWORD=
+DB_NAME=rtx_jewelry
+MYSQL_BIN=
+```
+
+If MySQL is unavailable, the API falls back to demo in-memory data. That is useful for preview deployments, but product/admin changes will not persist after a restart.
+
 ## Running unit tests
 
 To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
